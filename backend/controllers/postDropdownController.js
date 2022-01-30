@@ -96,26 +96,3 @@ exports.postCategory3 = async (req, res) => {
   const results = await category3Db.createCategory3(newCategory3);
   res.status(201).send();
 };
-
-
-// PATCH MEHTODS -------------
-
-exports.editSeller = (req, res) => {
-  res.send("seller id " + req.body.id + " edited");
-};
-
-exports.editCountry = (req, res) => {
-  res.send("country id " + req.body.id + " edited");
-};
-
-exports.editCategory1 = (req, res) => {
-  res.send("cat1 id " + req.body.id + " edited");
-};
-
-exports.editCategory2 = (req, res) => {
-  res.send("cat2 id " + req.body.id + " edited");
-};
-
-exports.editCategory3 = (req, res) => {
-  res.send("cat3 id " + req.body.id + " edited");
-};
