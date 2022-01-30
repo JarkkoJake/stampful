@@ -7,6 +7,17 @@ const category3Db = require("../db/Category3.js");
 /* Editing uses PUT method, all data should be given and 
  replaced in the database besides ID (discuss images) */
 
+ exports.editSeller = async (req, res) => {
+    let seller = {name: req.body.name};
+    try {
+        let results = await sellerDb.editSeller(req.body.id, seller);
+        res.status(201).send();
+    }
+    catch (err){
+        console.log(err);
+        res.status(400).send();
+    }
+};
 exports.editCountry = async (req, res) => {
     console.log("id: " + req.body.id + " name changed to " + req.body.name);
  };
@@ -17,8 +28,5 @@ exports.editCategory2 = async (req, res) => {
     console.log("id: " + req.body.id + " name changed to " + req.body.name);
 };
 exports.editCategory3 = async (req, res) => {
-    console.log("id: " + req.body.id + " name changed to " + req.body.name);
-};
-exports.editSeller = async (req, res) => {
     console.log("id: " + req.body.id + " name changed to " + req.body.name);
 };

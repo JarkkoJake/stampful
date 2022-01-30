@@ -8,6 +8,10 @@ function getAllSellers(){
   return knex("Sellers").select("*");
 }
 
+function editSeller(id, seller){
+  return knex("Sellers").where({"id": id}).update(seller);
+}
+
 // used to check if a specific id exists while validating for new auctions
 function getCount(id) {
   return knex("Sellers").count().where({"id": id});
@@ -21,5 +25,6 @@ module.exports = {
   createSeller,
   getAllSellers,
   getCount,
-  getSeller
+  getSeller,
+  editSeller
 };
