@@ -45,7 +45,6 @@ exports.browseListView = async (req, res) => {
   };
   if (req.query.page) settings.page = parseInt(req.query.page);
   if (req.query.maxPageSize) settings.maxPageSize = parseInt(req.query.maxPageSize);
-  console.log(settings);
   var filters = {};
   if (req.query.seller) filters.seller = req.query.seller;
   if (req.query.country) filters.country = req.query.country;

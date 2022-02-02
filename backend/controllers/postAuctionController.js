@@ -1,6 +1,5 @@
 const auctionDb = require("../db/Auction");
 const Auction = require("../models/auction");
-const countryDb = require("../db/country");
 
 exports.postNewAuction = async (req, res) => {
 
