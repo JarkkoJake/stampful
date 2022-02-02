@@ -1,7 +1,8 @@
 const express = require('express'),
   router = express.Router(),
   getAuctionController = require('../controllers/getAuctionController'),
-  postAuctionController = require("../controllers/postAuctionController");
+  postAuctionController = require("../controllers/postAuctionController"),
+  putAuctionController = require("../controllers/putAuctionController");
 
 // used to get detailed information from one auction using its id given 
 // in a query
@@ -17,6 +18,6 @@ router.get('/tilebrowse', getAuctionController.browseTileView);
 router.post("/", postAuctionController.postNewAuction);
 
 // edit auction, all data in body
-router.patch("/", postAuctionController.editAuction);
+router.put("/", putAuctionController.editAuction);
 
 module.exports.router = router;
