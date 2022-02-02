@@ -9,6 +9,7 @@ exports.postNewAuction = async (req, res) => {
   // create new auction object based on model
   var auction = new Auction.Auction(req.body);
 
+  // unused file testing code-----------------
   if (req.files) {
     console.log("files realized");
     req.files.array.forEach(file => {
@@ -19,6 +20,7 @@ exports.postNewAuction = async (req, res) => {
     auction.thumbnail = filepath;
     await file.mv(__dirname + "/../public/images/" + file.name);
 }
+ // ------------------------ 
 
   // this function checks if the auction somehow got country, seller or category id's
   // that dont exist at the moment
