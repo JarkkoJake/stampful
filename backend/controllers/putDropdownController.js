@@ -8,9 +8,9 @@ const category3Db = require("../db/Category3.js");
  replaced in the database besides ID (discuss images) */
 
  exports.editSeller = async (req, res) => {
-    let seller = {name: req.body.name};
+    let seller = {id:req.body.id, name: req.body.name};
     try {
-        let results = await sellerDb.editSeller(req.body.id, seller);
+        let results = await sellerDb.editSeller(seller);
         res.status(201).send();
     }
     catch (err){

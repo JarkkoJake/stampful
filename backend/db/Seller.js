@@ -8,8 +8,8 @@ function getAllSellers(){
   return knex("Sellers").select("*");
 }
 
-function editSeller(id, seller){
-  return knex("Sellers").where({"id": id}).update(seller);
+function editSeller(seller){
+  return knex("Sellers").where({"id": seller.id}).update({"name": seller.name});
 }
 
 // used to check if a specific id exists while validating for new auctions
