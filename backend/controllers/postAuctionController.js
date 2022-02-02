@@ -4,8 +4,6 @@ const countryDb = require("../db/country");
 
 exports.postNewAuction = async (req, res) => {
 
-  console.log(req.body);
-
   // create new auction object based on model
   var auction = new Auction.Auction(req.body);
 
@@ -30,8 +28,4 @@ exports.postNewAuction = async (req, res) => {
   var result = await auctionDb.createAuction(auction);
   res.status(201).send(result);
   }
-};
-
-exports.editAuction = (req, res) => {
-  res.send("auction " + req.body.id + " updated");
 };
