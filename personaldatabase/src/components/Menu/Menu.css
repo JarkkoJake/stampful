@@ -4,8 +4,8 @@
     width: 500px;
     position: absolute;
     border-radius: 25px;
-    background: #7491af;
-    color: #e3e3e3;
+    background: var(--componentbg);
+    color: var(--textclr);
     font-family: "Ubuntu";
     text-align: center;
     font-size: 40px;
@@ -20,8 +20,8 @@
     height: 100px;
     border-radius: 25px;
     margin-top: 43vh;
-    background: #7491af;
-    color: #e3e3e3;
+    background: var(--componentbg);
+    color: var(--textclr);
     font-family: "Ubuntu";
     font-size: 40px;
     text-align: center;
@@ -36,8 +36,8 @@
     height: 100px;
     border-radius: 25px;
     margin-top: 43vh;
-    background: #7491af;
-    color: #e3e3e3;
+    background: var(--componentbg);
+    color: var(--textclr);
     font-family: "Ubuntu";
     font-size: 40px;
     text-align: center;
@@ -52,8 +52,8 @@
     font-size: 30px;
     border-radius: 25px;
     bottom: 200px;
-    background: #7491af;
-    color: #e3e3e3;
+    background: var(--componentbg);
+    color: var(--textclr);
     font-family: "Ubuntu";
     border: none;
 }
@@ -66,8 +66,8 @@
     font-size: 30px;
     border-radius: 25px;
     bottom: 100px;
-    background: #7491af;
-    color: #e3e3e3;
+    background: var(--componentbg);
+    color: var(--textclr);
     font-family: "Ubuntu";
     border: none;
 }
@@ -75,7 +75,7 @@
 .appVersion {
     position: absolute;
     bottom: 10px;
-    color: #e3e3e3;
+    color: var(--textclr);
     right: 3.5vw;
 }
 
@@ -84,7 +84,7 @@
     position: absolute;
     right: 20px;
     top: 50px;
-    color: #e3e3e3;
+    color: var(--textclr);
 }
 
 @media only screen and (max-width: 1400px) {
@@ -98,11 +98,11 @@
   }
 
 .ant-drawer-body {
-    background: #5b9292;
+    background: var(--mainclr1);
 }
 
 .ant-drawer-header {
-    background: #5b9292;
+    background: var(--mainclr1);
     border: none;
 }
 
@@ -111,16 +111,16 @@
     font-size: 30px;
     text-align: center;
     font-family: "Ubuntu";
-    color: #e3e3e3;
+    color: var(--textclr);
     display: block;
     border-radius: 20px;
-    background-color: #74b0b0;
+    background-color: var(--mainclr2);
     margin-top: 30px;
     line-height: 55px;
 }
 
 .ant-drawer-close {
-    color: #e3e3e3;
+    color: var(--textclr);
 }
 
 span {
@@ -133,9 +133,9 @@ span {
     font-size: 30px;
     text-align: center;
     font-family: "Ubuntu";
-    color: #e3e3e3;
+    color: var(--textclr);
     display: block;
-    background-color: #74b0b0;
+    background-color: var(--mainclr2);
     border-radius: 25px;
     border: none;
 }
@@ -148,13 +148,13 @@ span {
 }
 
 .ant-popover-arrow-content {
-    background-color: #74b0b0;
+    background-color: var(--mainclr2);
     
 }
 
 .ant-popover-inner {
     border-radius: 25px;
-    background-color: #74b0b0;
+    background-color: var(--mainclr2);
     border: none;
 }
 
@@ -162,7 +162,7 @@ span {
     position: relative;
     bottom: 18px;
     font-size: 25px;
-    color: #e3e3e3;
+    color: var(--textclr);
 }
 
 .ant-popover-buttons {

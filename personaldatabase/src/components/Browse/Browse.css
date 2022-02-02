@@ -10,8 +10,8 @@
     cursor: pointer;
     margin-top: 2.5vh;
     border-radius: 100px;
-    background: #7491af;
-    color: #e3e3e3;
+    background: var(--componentbg);
+    color: var(--textclr);
     font-family: "Ubuntu";
     font-style: normal;
     font-weight: normal;
@@ -33,7 +33,7 @@
     pointer-events: none;
     margin-top: 2vh;
     font-size: 4vh;
-    color: #e3e3e3;
+    color: var(--textclr);
     font-family: "Ubuntu";
     margin-bottom: 0;
 }
@@ -41,7 +41,7 @@
 #browseMainBody {
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #5B9292;
+  background-color: var(--mainclr1);
   position: absolute;
   width: calc(90vw + 19px);
   height: 80vh;
@@ -56,7 +56,7 @@
   height: 15vh;
   margin-left: 1vw;
   margin-top: 1vh;
-  background-color: #7491AF;
+  background-color: var(--componentbg);
   position: relative;
   border-radius: 4px;
 }
@@ -64,7 +64,7 @@
 .image, .catalogNumber, .description, .prices, .seller{
   height: 14vh;
   width: 10vw;
-  background-color: #5B9292;
+  background-color: var(--mainclr1);
   margin-top: 0.5vh;
   margin-left: 0.5vw;
   border-radius: 4px;
@@ -88,14 +88,14 @@
   position: absolute;
   width: 18vw;
   height: 6.5vh;
-  background-color: #5B9292;
+  background-color: var(--mainclr1);
   border-radius: 4px;
 }
 
 .sellingPrice, .sellerName {
   position: absolute;
   margin-top: 7.5vh;
-  background-color: #5B9292;
+  background-color: var(--mainclr1);
   z-index: 3;
 }
 
@@ -114,7 +114,7 @@
 .catalogText, .descriptionText{
   margin-bottom: 0;
   font-size: 4vh;
-  color: #e3e3e3;
+  color: var(--textclr);
 }
 
 .centeringWrapperDescription{
@@ -135,7 +135,7 @@
   width: 10vw;
   margin-bottom: 0;
   font-size: 3vh;
-  color: #e3e3e3;
+  color: var(--textclr);
 }
 
 .paginationButtons{
