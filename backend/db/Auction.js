@@ -4,6 +4,10 @@ function createAuction (auction) {
     return knex("Auctions").insert(auction);
 }
 
+function editAuction(auction) {
+    return knex("Auctions").where({"id": auction.id}).update(auction);
+}
+
 function getAuctions (struct, filters, settings) {
     return knex("Auctions").select(struct).where(filters)
     .limit(settings.maxPageSize).offset((settings.page - 1) * settings.maxPageSize)
@@ -22,5 +26,6 @@ module.exports = {
     createAuction: createAuction,
     getAuctions: getAuctions,
     getCount: getCount,
-    getAuctionWithId: getAuctionWithId
+    getAuctionWithId: getAuctionWithId,
+    editAuction: editAuction
 };

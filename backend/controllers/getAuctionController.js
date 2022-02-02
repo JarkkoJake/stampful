@@ -37,15 +37,16 @@ exports.browseWithId = async (req, res) => {
 // send information for list view about the auctions
 
 exports.browseListView = async (req, res) => {
+
+  // build settings object based on client requirements
   var settings = {
-    page: 1,
-    maxPageSize: 10,
+    page: req.query.page ? parseInt(req.query.page) : 1,
+    maxPageSize: req.query.maxPageSize ? parseInt(req.query.maxPageSize) : 10,
     orderBy: req.query.orderBy || "date",
     orderAscending: req.query.orderAscending === "true" ? 1 : 0
   };
-  if (req.query.page) settings.page = parseInt(req.query.page);
-  if (req.query.maxPageSize) settings.maxPageSize = parseInt(req.query.maxPageSize);
-  console.log(settings);
+
+  // Build filters based on client requirements
   var filters = {};
   if (req.query.seller) filters.seller = req.query.seller;
   if (req.query.country) filters.country = req.query.country;
@@ -59,9 +60,12 @@ exports.browseListView = async (req, res) => {
   if (req.query.catalogueNumber) filters.catalogueNumber = req.query.catalogueNumber;
 
   var results = await auctionDb.getAuctions(Auction.Auction.listModel, filters, settings);
+
+  // populate the seller object based on id
   for (var i = 0; i < results.length; i++){
     results[i].seller = (await sellerDb.getSeller(results[i].seller))[0] || null;
   };
+  
   res.send({info: {}, auctions: results});
 };
 

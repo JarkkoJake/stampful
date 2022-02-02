@@ -2,6 +2,7 @@ const express = require('express'),
   router = express.Router(),
   getDropdownController = require('../controllers/getDropdownController'),
   postDropdownController = require("../controllers/postDropdownController");
+  putDropdownController = require("../controllers/putDropdownController");
 
 // GET METHODS ------------------------
 
@@ -36,19 +37,18 @@ router.post("/category2", postDropdownController.postCategory2);
 
 router.post("/category3", postDropdownController.postCategory3);
 
-// PATCH METHODS --------------
+// PUT METHODS --------------
 
 // new name and id given in body
 
-router.patch("/seller", postDropdownController.editSeller);
+router.put("/seller", putDropdownController.editSeller);
 
-router.patch("/country", postDropdownController.editCountry);
+router.put("/country", putDropdownController.editCountry);
 
-router.patch("/category1", postDropdownController.editCategory1);
+router.put("/category1", putDropdownController.editCategory1);
 
-router.patch("/category2", postDropdownController.editCategory2);
+router.put("/category2", putDropdownController.editCategory2);
 
-router.patch("/category3", postDropdownController.editCategory3);
-
+router.put("/category3", putDropdownController.editCategory3);
 
 module.exports.router = router;

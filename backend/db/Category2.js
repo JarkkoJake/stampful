@@ -4,6 +4,10 @@ function createCategory2(category2) {
   return knex("Category2").insert(category2);
 }
 
+function editCategory2(category2) {
+  return knex("Category2").where({"id": category2.id}).update({"category2": category2.category2});
+}
+
 function getCategory2(category1id) {
   return knex("Category2").select({
     id: "id",
@@ -19,5 +23,6 @@ function getCount(id) {
 module.exports = {
   createCategory2,
   getCategory2,
-  getCount
+  getCount,
+  editCategory2
 };
