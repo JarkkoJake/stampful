@@ -19,7 +19,15 @@ const category3Db = require("../db/Category3.js");
     }
 };
 exports.editCountry = async (req, res) => {
-    console.log("id: " + req.body.id + " name changed to " + req.body.name);
+    let country = {id: req.body.id, name: req.body.name};
+    try {
+        let results = await countryDb.editCountry(country);
+        res.status(201).send();
+    }
+    catch (err){
+        console.log(err);
+        res.status(400).send();
+    }
  };
 exports.editCategory1 = async (req, res) => {
     console.log("id: " + req.body.id + " name changed to " + req.body.name);

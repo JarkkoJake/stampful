@@ -4,6 +4,10 @@ function createCountry(country){
   return knex("Countries").insert(country);
 }
 
+function editCountry(country){
+  return knex("Countries").where({"id": country.id}).update({"name": country.name});
+}
+
 function getAllCountries(){
   return knex("Countries").select("*");
 }
@@ -21,5 +25,6 @@ module.exports = {
   createCountry,
   getAllCountries,
   getCount,
-  getCountry
+  getCountry,
+  editCountry
 };
