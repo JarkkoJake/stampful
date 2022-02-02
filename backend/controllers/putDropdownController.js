@@ -10,7 +10,7 @@ const category3Db = require("../db/Category3.js");
  exports.editSeller = async (req, res) => {
     let seller = {id:req.body.id, name: req.body.name};
     try {
-        let results = await sellerDb.editSeller(seller);
+        await sellerDb.editSeller(seller);
         res.status(204).send();
     }
     catch (err){
@@ -21,7 +21,7 @@ const category3Db = require("../db/Category3.js");
 exports.editCountry = async (req, res) => {
     let country = {id: req.body.id, name: req.body.name};
     try {
-        let results = await countryDb.editCountry(country);
+        await countryDb.editCountry(country);
         res.status(204).send();
     }
     catch (err){
@@ -32,7 +32,7 @@ exports.editCountry = async (req, res) => {
 exports.editCategory1 = async (req, res) => {
     let category = {id: req.body.id, category1: req.body.category1};
     try {
-        let results = await category1Db.editCategory1(category);
+        await category1Db.editCategory1(category);
         res.status(204).send();
     }
     catch (err) {
@@ -43,7 +43,7 @@ exports.editCategory1 = async (req, res) => {
 exports.editCategory2 = async (req, res) => {
     let category = {id: req.body.id, category2: req.body.category2};
     try {
-        let results = await category2Db.editCategory2(category);
+        await category2Db.editCategory2(category);
         res.status(204).send();
     }
     catch (err) {
@@ -54,7 +54,7 @@ exports.editCategory2 = async (req, res) => {
 exports.editCategory3 = async (req, res) => {
     let category = {id: req.body.id, category3: req.body.category3};
     try {
-        let results = await category3Db.editCategory3(category);
+        await category3Db.editCategory3(category);
         res.status(204).send();
     }
     catch (err) {
