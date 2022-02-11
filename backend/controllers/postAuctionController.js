@@ -6,6 +6,7 @@ exports.postNewAuction = async (req, res) => {
   // create new auction object based on model
   var auction = new Auction.Auction(req.body);
 
+  console.log(auction.thumbnail || "no picture");
   // unused file testing code-----------------
   if (req.files) {
     console.log("files realized");
