@@ -103,6 +103,28 @@ const Post = () => {
     setRoute("Browse");
   };
 
+
+  // TESTING-------------------
+
+  const [thumbnail, setThumbnail] = useState(null);
+
+  const changeImage = (e) => {
+    setThumbnail(e.target.files[0]);
+    console.log(e.target.files);
+    var thumbnailData = new FormData();
+    /*thumbnailData.append("thumbnail", thumbnail, thumbnail.name);
+    setPostItem("thumbnail", thumbnailData);*/
+    var fr = new FileReader();
+    fr.onload = function () {
+      document.getElementById("imagetesting").src = fr.result;
+      console.log(thumbnail.name || "no name");
+    };
+    fr.readAsDataURL(thumbnail);
+
+  };
+  //----------------------------
+
+
   const categoryOptions1 = category1.map((category) =>
     <Option
       key={category.id}
@@ -232,7 +254,12 @@ const Post = () => {
         <Row justify="space-around" align="middle" className="secondRow">
           <Col className="columnThumbnail" style={{width: "calc(40% - 5px)"}}>
             <Row justify="space-around" align="middle" className="thumbnailFirstRow"> 
-              <img src={logo} alt="Logo"></img>
+              
+              {/*TESTING-----------------------*/}
+              <img id="imagetesting" src={logo} alt="Logo"></img>
+              <input type="file" onChange={() => {setTimeout(500, changeImage);}}></input>
+              {/*------------------------*/}
+
             </Row>
             <Row justify="space-around" align="middle" className="thumbnailSecondRow"> 
               {imagesColumns}

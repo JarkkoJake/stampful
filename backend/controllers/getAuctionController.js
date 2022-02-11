@@ -66,7 +66,10 @@ exports.browseListView = async (req, res) => {
     results[i].seller = (await sellerDb.getSeller(results[i].seller))[0] || null;
   };
   
-  res.send({info: {}, auctions: results});
+  // get count of items to calculate total pages
+  var totalPages = await auctionDb.getCount(filters);
+
+  res.send({info: {totalPages: Math.ceil(totalPages[0]["count(*)"] / settings.maxPageSize)}, auctions: results});
 };
 
 // send information for tile view about the auctions
