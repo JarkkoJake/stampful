@@ -105,12 +105,22 @@ const Post = () => {
 
 
   // TESTING-------------------
+
+  const [thumbnail, setThumbnail] = useState(null);
+
   const changeImage = (e) => {
+    setThumbnail(e.target.files[0]);
+    console.log(e.target.files);
+    var thumbnailData = new FormData();
+    /*thumbnailData.append("thumbnail", thumbnail, thumbnail.name);
+    setPostItem("thumbnail", thumbnailData);*/
     var fr = new FileReader();
     fr.onload = function () {
       document.getElementById("imagetesting").src = fr.result;
+      console.log(thumbnail.name || "no name");
     };
-    fr.readAsDataURL(e.target.files[0]);
+    fr.readAsDataURL(thumbnail);
+
   };
   //----------------------------
 
@@ -247,7 +257,7 @@ const Post = () => {
               
               {/*TESTING-----------------------*/}
               <img id="imagetesting" src={logo} alt="Logo"></img>
-              <input type="file" onChange={changeImage}></input>
+              <input type="file" onChange={() => {setTimeout(500, changeImage);}}></input>
               {/*------------------------*/}
 
             </Row>
