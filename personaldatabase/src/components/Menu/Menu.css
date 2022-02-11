@@ -1,7 +1,7 @@
 .stampAuctionDatabase {
     top: 30px;
     left: 30px;
-    width: 500px;
+    width: 450px;
     position: absolute;
     border-radius: 25px;
     background: var(--componentbg);
@@ -26,6 +26,10 @@
     font-size: 40px;
     text-align: center;
     border: none;
+}
+
+.browseButton:hover, .postButton:hover {
+    box-shadow: 0 0 20px rgba(33,33,33,.2); 
 }
 
 .postButton {
@@ -83,7 +87,7 @@
     font-size: 60px;
     position: absolute;
     right: 20px;
-    top: 50px;
+    top: 100px;
     color: var(--textclr);
 }
 
