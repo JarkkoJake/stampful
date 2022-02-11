@@ -103,6 +103,18 @@ const Post = () => {
     setRoute("Browse");
   };
 
+
+  // TESTING-------------------
+  const changeImage = (e) => {
+    var fr = new FileReader();
+    fr.onload = function () {
+      document.getElementById("imagetesting").src = fr.result;
+    };
+    fr.readAsDataURL(e.target.files[0]);
+  };
+  //----------------------------
+
+
   const categoryOptions1 = category1.map((category) =>
     <Option
       key={category.id}
@@ -232,7 +244,12 @@ const Post = () => {
         <Row justify="space-around" align="middle" className="secondRow">
           <Col className="columnThumbnail" style={{width: "calc(40% - 5px)"}}>
             <Row justify="space-around" align="middle" className="thumbnailFirstRow"> 
-              <img src={logo} alt="Logo"></img>
+              
+              {/*TESTING-----------------------*/}
+              <img id="imagetesting" src={logo} alt="Logo"></img>
+              <input type="file" onChange={changeImage}></input>
+              {/*------------------------*/}
+
             </Row>
             <Row justify="space-around" align="middle" className="thumbnailSecondRow"> 
               {imagesColumns}
