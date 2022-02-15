@@ -5,6 +5,7 @@
   --mainclr2: #74b0b0;
   --placeholderclr: #e3e3e398;
   --selectedclr: #69acac;
+  --hover: #00000080;
 }
 .header {
   color: var(--textclr);

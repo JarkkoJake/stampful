@@ -41,13 +41,14 @@
 #browseMainBody {
   overflow-y: scroll;
   overflow-x: hidden;
+  z-index: 1;
   background-color: var(--mainclr1);
   position: absolute;
   width: calc(90vw + 19px);
   height: 80vh;
   border-radius: 4px;
   margin-left: 5vw;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 30px #00000080;
 }
 
 .auctionItem{
@@ -102,7 +103,9 @@
 
 .auctionImage {
   position: absolute;
-  width: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -141,28 +144,50 @@
   color: var(--textclr);
 }
 
-.paginationButtons{
+.paginationButtons {
   position: absolute;
-  bottom: 2vh;
-  left: calc(50vw - 13vh);
-}
-.paginationButtonPrevious{
-  width: 14vh;
-  height: 4vh;
-  min-height: 43px;
-  min-width: 148px;
-  margin-left: 0.5vh;
+  width: 120px;
+  height: 30px;
+  z-index: 100;
+  bottom: 1px;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
-.paginationButtonNext{
-  width: 14vh;
-  height: 4vh;
-  min-height: 43px;
-  min-width: 148px;
-  margin-left: 0.5vh;
+.pageNumers {
+  color: var(--textclr);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.paginationText{
-  max-width: 100%;
-  max-height: 100%;
+.left, .allLeft, .right, .allRight {
+  cursor: pointer;
+  color: var(--textclr);
+  transition: 0.15s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.left:hover, .allLeft:hover, .right:hover, .allRight :hover{
+  color: var(--hover);
+  transition: 0.15s;
+  z-index: 2;
+}
+
+.allLeft {
+  left: 20%;
+}
+.left{
+  left: 30%;
+}
+
+.allRight {
+  left: 80%;
+}
+.right{
+  left: 70%;
 }
