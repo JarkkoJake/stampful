@@ -15,9 +15,11 @@ const Browse = () => {
   const [auctionItemsList, setAuctionItemsList] = useState([]);
   const pageNumber = useRef(1);
 
+  const URL = constants.URL;
+
   useLayoutEffect(() => {
     axios
-      .get(`${constants.URL}/auctions/listbrowse?page=${pageNumber.current}&orderBy=id`)
+      .get(`${URL}/auctions/listbrowse?page=${pageNumber.current}&orderBy=id`)
       .then((res) => {
         console.log(res.data);
         setAuctionItemsList(res.data.auctions);
@@ -29,7 +31,7 @@ const Browse = () => {
       null;
     } else {
       axios
-        .get(`${constants.URL}/auctions/listbrowse?page=${pageNumber.current + direction}&orderBy=id`)
+        .get(`${URL}/auctions/listbrowse?page=${pageNumber.current + direction}&orderBy=id`)
         .then((res) => {
           console.log(res.data);
           setAuctionItemsList(res.data.auctions);

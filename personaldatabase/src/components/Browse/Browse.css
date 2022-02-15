@@ -87,6 +87,7 @@
 .startingPrice, .sellingPrice, .sellingYear, .sellerName {
   position: absolute;
   width: 18vw;
+  max-width: 100%;
   height: 6.5vh;
   background-color: var(--mainclr1);
   border-radius: 4px;
@@ -100,10 +101,11 @@
 }
 
 .auctionImage {
-  margin-left: calc(5vw - 6.75vh);
-  max-width: 13.5vh;
-  max-height: 13.5vh;
-  margin-top: 0.25vh;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .centeringWrapper{
   position: absolute;
@@ -125,6 +127,7 @@
   padding-right: 5px;
   overflow-y: hidden;
   height: 13.5vh;
+  width: 100%;
 }
 
 .descriptionText{
