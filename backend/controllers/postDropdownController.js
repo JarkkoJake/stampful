@@ -19,8 +19,8 @@ exports.postSeller = async (req, res) => {
   const newSeller = {
     name: req.body.name
   };
-  const results = await sellerDb.createSeller(newSeller);
-  res.status(201).send();
+  newSeller.id = (await sellerDb.createSeller(newSeller))[0];
+  res.status(201).send(newSeller);
 };
 
 // post a new country, takes {"name": "example"} as a request body
@@ -36,8 +36,8 @@ exports.postCountry = async (req, res) => {
   const newCountry = {
     name: req.body.name
   };
-  const results = await countryDb.createCountry(newCountry);
-  res.status(201).send();
+  newCountry.id = (await countryDb.createCountry(newCountry))[0];
+  res.status(201).send(newCountry);
 };
 
 // post a new category1, takes {"country": id, "category1": "example"}
@@ -55,8 +55,8 @@ exports.postCategory1 = async (req, res) => {
     country: req.body.country,
     category1: req.body.category1
   };
-  const results = await category1Db.createCategory1(newCategory1);
-  res.status(201).send();
+  newCategory1.id = (await category1Db.createCategory1(newCategory1))[0];
+  res.status(201).send(newCategory1);
 };
 
 // post a new category2, takes {"category1": id, "category2": "example"}
@@ -74,8 +74,8 @@ exports.postCategory2 = async (req, res) => {
     category1: req.body.category1,
     category2: req.body.category2
   };
-  const results = await category2Db.createCategory2(newCategory2);
-  res.status(201).send();
+  newCategory2.id = (await category2Db.createCategory2(newCategory2))[0];
+  res.status(201).send(newCategory2);
 };
 
 // post a new category3, takes {"category2": id, "category3": "example"}
@@ -93,6 +93,6 @@ exports.postCategory3 = async (req, res) => {
     category2: req.body.category2,
     category3: req.body.category3
   };
-  const results = await category3Db.createCategory3(newCategory3);
-  res.status(201).send();
+  newCategory3.id = (await category3Db.createCategory3(newCategory3))[0];
+  res.status(201).send(newCategory3);
 };
