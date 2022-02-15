@@ -106,22 +106,20 @@ const Post = () => {
 
   // TESTING-------------------
 
-  const [thumbnail, setThumbnail] = useState(null);
-
+  const [imageData, setImageData] = useState(new FormData());
+  const [tn, setTn] = useState(null);
   const changeImage = (e) => {
-    setThumbnail(e.target.files[0]);
-    console.log(e.target.files);
-    var thumbnailData = new FormData();
-    /*thumbnailData.append("thumbnail", thumbnail, thumbnail.name);
-    setPostItem("thumbnail", thumbnailData);*/
-    var fr = new FileReader();
-    fr.onload = function () {
-      document.getElementById("imagetesting").src = fr.result;
-      console.log(thumbnail.name || "no name");
-    };
-    fr.readAsDataURL(thumbnail);
-
+    imageData.set(e.target.id, e.target.files[0]);
+    console.log(imageData.get(e.target.id));
+    setTn(e.target.files[0]);
+    setImageData(imageData);
   };
+  
+  useLayoutEffect(() => {
+    if (imageData.get("thumbnail")) {
+      document.getElementById("imagetesting").src = URL.createObjectURL(imageData.get("thumbnail"));
+    }
+  }, [tn]);
   //----------------------------
 
 
@@ -256,8 +254,8 @@ const Post = () => {
             <Row justify="space-around" align="middle" className="thumbnailFirstRow"> 
               
               {/*TESTING-----------------------*/}
-              <img id="imagetesting" src={logo} alt="Logo"></img>
-              <input type="file" onChange={() => {setTimeout(500, changeImage);}}></input>
+              <img id="imagetesting" src={imageData.get("thumbnail") ? URL.createObjectURL(imageData.get("thumbnail")) : logo} alt="Logo"></img>
+              <input type="file" id="thumbnail" onChange={changeImage}></input>
               {/*------------------------*/}
 
             </Row>
