@@ -172,9 +172,8 @@ const Post = () => {
       key={image}
       id={image}
       align="middle"
-      justify="space-around"
       className="columnThumbnailAdditional"
-      style={{width: "10vw"}}>
+      style={{width: "95px"}}>
       <p> Other image </p>
     </Col>
   );
@@ -250,18 +249,19 @@ const Post = () => {
           </Col>
         </Row>
         <Row justify="space-around" align="middle" className="secondRow">
+
           <Col className="columnThumbnail" style={{width: "calc(40% - 5px)"}}>
-            <Row justify="space-around" align="middle" className="thumbnailFirstRow"> 
-              
+
+            <Col className="thumbnailFirstRow" style={{width: "calc(50% - 5px)"}}> 
               {/*TESTING-----------------------*/}
               <img id="imagetesting" src={imageData.get("thumbnail") ? URL.createObjectURL(imageData.get("thumbnail")) : logo} alt="Logo"></img>
               <input type="file" id="thumbnail" onChange={changeImage}></input>
-              {/*------------------------*/}
 
-            </Row>
-            <Row justify="space-around" align="middle" className="thumbnailSecondRow"> 
+              {/*------------------------*/}
+            </Col>
+            <Col className="thumbnailSecondRow">
               {imagesColumns}
-            </Row>
+            </Col>
           </Col>
 
 
@@ -269,14 +269,18 @@ const Post = () => {
           <Col className="columnInfo" style={{width: "calc(59% - 5px)"}}>
             <Row justify="space-around" align="middle" className="stampInfoRow">
               <Col className="stampInfoColumn" style={{width: "calc(100% - 5px)"}}>
-                <Row justify="space-around" align="middle" className="stampInfoRowTop">
+                <Row justify="space-around" align="middle" className="stampInfoRowTopTop">
                   {Checkboxes}
-                  <Input id="infoInput" placeholder="Catalogue number" onChange={(e) => setPostItem("catalogueNumber", e.target.value)}/>
+                  <Input
+                    id="infoInput"
+                    style={{minWidth: "130px"}}
+                    placeholder="Catalogue number"
+                    onChange={(e) => setPostItem("catalogueNumber", e.target.value)}/>
                 </Row>
-                <Row justify="space-around" align="middle" className="stampInfoRowTop">
+                <Row align="middle" className="stampInfoRowTopBottom">
 
-                  <Input id="infoInputStartingPrice" placeholder="Starting price" onChange={(e) => setPostItem("startingPrice", e.target.value)}/>
-                  <Input id="infoInputSellingPrice" placeholder="Selling price" onChange={(e) => setPostItem("sellingPrice", e.target.value)}/>
+                  <Input id="infoInputStartingPrice" style={{minWidth: "180px"}} placeholder="Starting price" onChange={(e) => setPostItem("startingPrice", e.target.value)}/>
+                  <Input id="infoInputSellingPrice" style={{minWidth: "180px"}} placeholder="Selling price" onChange={(e) => setPostItem("sellingPrice", e.target.value)}/>
                   <Input id="infoInputCurrency" placeholder="Selling price" value={"€"} disabled={true}/>
 
                 </Row>

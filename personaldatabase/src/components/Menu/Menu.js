@@ -36,9 +36,10 @@ const Menu = ({ title }) => {
       <UnorderedListOutlined id="sideMenuButton" onClick={() => showDrawer(true)}/>
       <Drawer title="John Doe" placement="right" onClose={onClose} visible={visible}>
         <button className="settingsButton">Settings <SettingFilled/></button>
-        <Popconfirm title={logoutText} onConfirm={() => setRoute("Index")} okText="Logout" cancelText="Back">
-          <button className="logoutButton">Logout <LogoutOutlined/></button>
-        </Popconfirm>
+        <button className="logoutButton" onClick={() => setRoute("Index")}>
+          Logout 
+          <LogoutOutlined/>
+        </button>
         <h3 className="appVersion">App version 01.00.00</h3>
       </Drawer>
     </div>

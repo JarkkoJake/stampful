@@ -1,11 +1,10 @@
 import React, { useContext, useState, useLayoutEffect, useRef, useEffect } from "react";
 import axios from "axios";
 import { constants } from "../../Constants";
-import PropTypes from "prop-types";
 import { RouteContext } from "../../Contexts/RouterContext";
 import { Row, Col, Button } from "antd";
 import "antd/dist/antd.css";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import logo from "../../public/images/StampLogo.png";
 import "./Browse.css";
 
@@ -14,28 +13,43 @@ const Browse = () => {
 
   const [auctionItemsList, setAuctionItemsList] = useState([]);
   const pageNumber = useRef(1);
+  const maxPageNumber = useRef(1);
 
-  useLayoutEffect(() => {
+  const URL = constants.URL;
+
+  useEffect(() => {
     axios
-      .get(`${constants.URL}/auctions/listbrowse?page=${pageNumber.current}&orderBy=id`)
+      .get(`${URL}/auctions/listbrowse?page=${pageNumber.current}&orderBy=id`)
       .then((res) => {
-        console.log(res.data);
+        maxPageNumber.current = res.data.info.totalPages;
         setAuctionItemsList(res.data.auctions);
       });
   },[]);
 
   const changePage = (direction) => {
-    if ((direction < 0 && pageNumber.current === 1) || (auctionItemsList.length < 10 && direction > 0)) {
+    if ((direction < 0 && pageNumber.current === 1) || (pageNumber.current === maxPageNumber.current && direction > 0)) {
       null;
     } else {
       axios
-        .get(`${constants.URL}/auctions/listbrowse?page=${pageNumber.current + direction}&orderBy=id`)
+        .get(`${URL}/auctions/listbrowse?page=${pageNumber.current + direction}&orderBy=id`)
         .then((res) => {
-          console.log(res.data);
-          setAuctionItemsList(res.data.auctions);
           pageNumber.current = pageNumber.current + 1 * direction;
+          maxPageNumber.current = res.data.info.totalPages;
+          setAuctionItemsList(res.data.auctions);
+          
         });
     }
+  };
+
+  const directPageChange = (number) => {
+    if (number === 0) number = maxPageNumber.current;
+    axios
+      .get(`${URL}/auctions/listbrowse?page=${number}&orderBy=id`)
+      .then((res) => {
+        pageNumber.current = number;
+        maxPageNumber.current = res.data.info.totalPages;
+        setAuctionItemsList(res.data.auctions);
+      });
   };
 
   const auctionItems = auctionItemsList.map((auction) => {
@@ -102,14 +116,21 @@ const Browse = () => {
         {auctionItems}
       </div>
       <div className="paginationButtons">
-        <Button size="default" shape="round" className="paginationButtonPrevious" onClick={() => changePage(-1)}>
-          <p className="paginationText"><ArrowLeftOutlined />
-          Previous page</p>
-        </Button>
-        <Button size="default" shape="round" className="paginationButtonNext" onClick={() => changePage(1)}>
-          <p className="paginationText">Next page
-            <ArrowRightOutlined /></p>
-        </Button>
+        <div className="allLeft" onClick={() => directPageChange(1)}>
+          <DoubleLeftOutlined style={{fontSize: "14px"}}/>
+        </div>
+        <div className="left">
+          <LeftOutlined onClick={() => changePage(-1)} style={{fontSize: "14px"}}/>
+        </div>
+        <div className="pageNumers">
+          {pageNumber.current}/{maxPageNumber.current}
+        </div>
+        <div className="right">
+          <RightOutlined onClick={() => changePage(1)} style={{fontSize: "14px"}}/>
+        </div>
+        <div className="allRight">
+          <DoubleRightOutlined onClick={() => directPageChange(0)} style={{fontSize: "14px"}}/>
+        </div>
       </div>
     </div>
   );
