@@ -27,3 +27,4 @@ yarn-debug.log*
 yarn-error.log*
 *.sqlite3
 backend/stamp_auction_db.sqlite3
+backend/stamp_auction_db.sqlite3
