@@ -104,14 +104,15 @@ const Post = () => {
   };
 
 
-  // TESTING-------------------
+  // Images -------------------
 
   const [imageData, setImageData] = useState(new FormData());
-  const [tn, setTn] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
+  const [otherImages, setOtherImages] = useState([]);
+
   const changeImage = (e) => {
     imageData.set(e.target.id, e.target.files[0]);
-    console.log(imageData.get(e.target.id));
-    setTn(e.target.files[0]);
+    setThumbnail(e.target.files[0]);
     setImageData(imageData);
   };
   
@@ -119,7 +120,8 @@ const Post = () => {
     if (imageData.get("thumbnail")) {
       document.getElementById("imagetesting").src = URL.createObjectURL(imageData.get("thumbnail"));
     }
-  }, [tn]);
+  }, [imageData]);
+
   //----------------------------
 
 
