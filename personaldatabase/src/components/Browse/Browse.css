@@ -1,41 +1,80 @@
+body {
+  overflow-x: auto !important;
+}
+
 #browseHeader {
-    z-index: 1;
-    height: 10vh;
-    width: 90vw;
-    margin-left: 5vw;
-    margin-top: 2.5vh;
+    height: 100px;
+    width: 100%;
+}
+
+#filter, #changeType, #back, #clearAll {
+  z-index: 1;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 30px;
+  cursor: pointer;
+  margin-top: 35px;
+  background: var(--componentbg);
+  color: var(--textclr);
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 27px;
+  text-align: center;
+  border: none;
 }
 
 #back {
-    cursor: pointer;
-    margin-top: 2.5vh;
-    border-radius: 100px;
-    background: var(--componentbg);
-    color: var(--textclr);
-    font-family: "Ubuntu";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 3vh;
-    width: 12vh;
-    height: 5vh;
-    text-align: center;
-    border: none;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  margin-left: 34px;
+  width: 135px;
+  height: 45px;
 }
+
+#changeType, #filter {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.375);
+  position: absolute;
+  top: 0;
+  left: 186px;
+  width: 45px;
+  height: 45px;
+}
+
+#changeType {
+  left: 244px;
+}
+
+#clearAll {
+  visibility: hidden;
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 45px;
+  margin-bottom: 100px;
+}
+
+.iconButton {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #browseView {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
     text-align: center;
     position: absolute;
-    width: 90vw;
-    height: 10vh;
     pointer-events: none;
 }
 #browseText {
     pointer-events: none;
-    margin-top: 2vh;
-    font-size: 4vh;
+    margin-top: 15px;
     color: var(--textclr);
     font-family: "Ubuntu";
     margin-bottom: 0;
+    font-size: 50px;
 }
 
 #browseMainBody {
@@ -44,10 +83,11 @@
   z-index: 1;
   background-color: var(--mainclr1);
   position: absolute;
-  width: calc(90vw + 19px);
-  height: 80vh;
+  width: 90%;
+  height: calc(100% - 160px);
   border-radius: 4px;
-  margin-left: 5vw;
+  margin-left: 34px;
+  margin-bottom: 50px;
   box-shadow: 0px 0px 30px #00000080;
 }
 
@@ -118,7 +158,7 @@
 }
 .catalogText, .descriptionText{
   margin-bottom: 0;
-  font-size: 4vh;
+  font-size: 40px;
   color: var(--textclr);
 }
 
@@ -128,19 +168,19 @@
   transform: translate(0, -50%);
   padding-left: 5px;
   padding-right: 5px;
-  overflow-y: hidden;
+  overflow-y: auto;
   height: 13.5vh;
   width: 100%;
 }
 
 .descriptionText{
-  font-size: 1.7vh;
+  font-size: 20px;
 }
 
 .infoHeader{
   width: 10vw;
   margin-bottom: 0;
-  font-size: 3vh;
+  font-size: 25px;
   color: var(--textclr);
 }
 
@@ -149,7 +189,7 @@
   width: 120px;
   height: 30px;
   z-index: 100;
-  bottom: 1px;
+  bottom: 14px;
   left: 50%;
   transform: translate(-50%, 0%);
 }
@@ -179,15 +219,15 @@
 }
 
 .allLeft {
-  left: 20%;
+  left: 0%;
 }
 .left{
-  left: 30%;
+  left: 20%;
 }
 
 .allRight {
-  left: 80%;
+  left: 100%;
 }
 .right{
-  left: 70%;
+  left: 80%;
 }
