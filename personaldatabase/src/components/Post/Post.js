@@ -99,7 +99,7 @@ const Post = () => {
   },[]);
 
   const saveAuctionButton = () => {
-    saveAuction();
+    saveAuction(imageData);
     setRoute("Browse");
   };
 
@@ -107,12 +107,12 @@ const Post = () => {
   // Images -------------------
 
   const [imageData, setImageData] = useState(new FormData());
-  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailUpdate, setThumbnailUpdate] = useState(null);
   const [otherImages, setOtherImages] = useState([]);
 
   const changeImage = (e) => {
     imageData.set(e.target.id, e.target.files[0]);
-    setThumbnail(e.target.files[0]);
+    setThumbnailUpdate(e.target.files[0]);
     setImageData(imageData);
   };
   
@@ -120,7 +120,7 @@ const Post = () => {
     if (imageData.get("thumbnail")) {
       document.getElementById("imagetesting").src = URL.createObjectURL(imageData.get("thumbnail"));
     }
-  }, [imageData]);
+  }, [thumbnailUpdate]);
 
   //----------------------------
 
