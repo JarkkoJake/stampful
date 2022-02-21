@@ -118,6 +118,7 @@ const DrawerComponent = (props) => {
           <span id="priceDivider">-</span>
           <input type="number" id="max" name="max" min="0" placeholder="Max price"/>
         </div>
+
         <div className="checkboxes">
           <div className="checkboxWrapper">
             <label className="checkboxHeader">Used</label>
@@ -136,6 +137,11 @@ const DrawerComponent = (props) => {
             <input className="checkbox" type="checkbox"/>
           </div>
         </div>
+        <input className="catalogNumberFilter" placeHolder={"Catalog number"} />
+
+        <button id="applyChanges">
+        Apply
+        </button>
       </div>
     </Drawer>
   );
