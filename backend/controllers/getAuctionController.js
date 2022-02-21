@@ -48,6 +48,13 @@ exports.browseListView = async (req, res) => {
     orderAscending: req.query.orderAscending === "true" ? 1 : 0
   };
 
+  if (req.query.minPrice || req.query.maxPrice) {
+    settings.minPrice = parseInt(req.query.minPrice) || 0;
+    settings.maxPrice = parseInt(req.query.maxPrice) || Number.POSITIVE_INFINITY;
+    console.log(settings);
+
+  }
+
   // Build filters based on client requirements
   var filters = {};
   if (req.query.seller) filters.seller = req.query.seller;

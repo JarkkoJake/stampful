@@ -9,9 +9,17 @@ function editAuction(auction) {
 }
 
 function getAuctions (struct, filters, settings) {
-    return knex("Auctions").select(struct).where(filters)
-    .limit(settings.maxPageSize).offset((settings.page - 1) * settings.maxPageSize)
-    .orderBy(settings.orderBy, ["desc", "asc"][settings.orderAscending]);
+    if ((settings.minPrice >= 0) && settings.maxPrice) {
+        return knex("Auctions").select(struct).where(filters)
+            .andWhereBetween("sellingPrice", [settings.minPrice, settings.maxPrice])
+            .limit(settings.maxPageSize).offset((settings.page - 1) * settings.maxPageSize)
+            .orderBy(settings.orderBy, ["desc", "asc"][settings.orderAscending]);
+    }
+    else {
+        return knex("Auctions").select(struct).where(filters)
+        .limit(settings.maxPageSize).offset((settings.page - 1) * settings.maxPageSize)
+        .orderBy(settings.orderBy, ["desc", "asc"][settings.orderAscending]);
+    }
 }
 
 function getAuctionWithId (id) {
