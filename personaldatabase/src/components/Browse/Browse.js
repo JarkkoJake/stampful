@@ -2,27 +2,39 @@ import React, { useContext, useState, useLayoutEffect, useRef, useEffect } from 
 import axios from "axios";
 import { constants } from "../../Constants";
 import { RouteContext } from "../../Contexts/RouterContext";
+import { BrowseContext } from "../../Contexts/BrowseContext";
 import { Row, Col, Button } from "antd";
 import "antd/dist/antd.css";
-import { LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { LeftOutlined,
+  RightOutlined,
+  DoubleLeftOutlined,
+  DoubleRightOutlined,
+  ArrowLeftOutlined,
+  FilterOutlined,
+  TableOutlined,
+  MenuOutlined
+} from "@ant-design/icons";
+import DrawerComponent from "./Drawer.js"; 
 import logo from "../../public/images/StampLogo.png";
 import "./Browse.css";
 
 const Browse = () => {
   const { setRoute } = useContext(RouteContext);
-
+  const { constructUrl, requestObject } = useContext(BrowseContext);
   const [auctionItemsList, setAuctionItemsList] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const pageNumber = useRef(1);
   const maxPageNumber = useRef(1);
 
-  const URL = constants.URL;
-
   useEffect(() => {
-    axios
-      .get(`${URL}/auctions/listbrowse?page=${pageNumber.current}&orderBy=id`)
-      .then((res) => {
-        maxPageNumber.current = res.data.info.totalPages;
-        setAuctionItemsList(res.data.auctions);
+    constructUrl()
+      .then((URL) => {
+        axios
+          .get(URL)
+          .then((res) => {
+            maxPageNumber.current = res.data.info.totalPages;
+            setAuctionItemsList(res.data.auctions);
+          }); 
       });
   },[]);
 
@@ -30,21 +42,38 @@ const Browse = () => {
     if ((direction < 0 && pageNumber.current === 1) || (pageNumber.current === maxPageNumber.current && direction > 0)) {
       null;
     } else {
-      axios
-        .get(`${URL}/auctions/listbrowse?page=${pageNumber.current + direction}&orderBy=id`)
-        .then((res) => {
-          pageNumber.current = pageNumber.current + 1 * direction;
-          maxPageNumber.current = res.data.info.totalPages;
-          setAuctionItemsList(res.data.auctions);
-          
+      requestObject.page = pageNumber.current + direction;
+      constructUrl()
+        .then((URL) => {
+          axios
+            .get(URL)
+            .then((res) => {
+              pageNumber.current = pageNumber.current + direction;
+              maxPageNumber.current = res.data.info.totalPages;
+              setAuctionItemsList(res.data.auctions);
+              console.log(res.data.auctions);
+            });
         });
     }
+  };
+
+  const refetch = () => {
+    constructUrl()
+      .then((URL) => {
+        axios
+          .get(URL)
+          .then((res) => {
+            pageNumber.current = 1;
+            maxPageNumber.current = res.data.info.totalPages;
+            setAuctionItemsList(res.data.auctions);
+          });
+      });
   };
 
   const directPageChange = (number) => {
     if (number === 0) number = maxPageNumber.current;
     axios
-      .get(`${URL}/auctions/listbrowse?page=${number}&orderBy=id`)
+      .get(`${URL}/auctions/listbrowse?page=${number}`)
       .then((res) => {
         pageNumber.current = number;
         maxPageNumber.current = res.data.info.totalPages;
@@ -56,7 +85,7 @@ const Browse = () => {
     return (
       <Row className="auctionItem" onClick={() => setRoute("Detailed")} key={auction.id}>
         <Col className="image">
-          <img className="auctionImage" src={logo} alt="Logo"></img>
+          <img className="auctionImage" src={auction.thumbnail || logo} alt="Logo"></img>
         </Col>
         <Col className="catalogNumber">
           <div className="centeringWrapper">
@@ -101,14 +130,20 @@ const Browse = () => {
 
   return (
     <div>
+      <DrawerComponent visible={drawerOpen} closeFunction={() => {setDrawerOpen(false); refetch();}}/>
       <div id="browseHeader">
         <button id="back" onClick={() => setRoute("Menu")} style={{float: "left"}}>
-          <ArrowLeftOutlined style={{fontSize: "2.3vh", paddingRight: "6px" }}/>
+          <ArrowLeftOutlined style={{fontSize: "28px", paddingRight: "12px" }}/>
           Back
         </button>
         <div id="browseView">
-          <p id="browseText"> Browse view </p>
-          
+          <h1 id="browseText"> Browse view </h1>
+        </div>
+        <div id="filter" onClick={() => {setDrawerOpen(!drawerOpen);}}>
+          <FilterOutlined className="iconButton" style={{fontSize: "28px" }}/>
+        </div>
+        <div id="changeType">
+          <TableOutlined className="iconButton" style={{fontSize: "28px" }}/>
         </div>
       </div>
 
@@ -117,19 +152,19 @@ const Browse = () => {
       </div>
       <div className="paginationButtons">
         <div className="allLeft" onClick={() => directPageChange(1)}>
-          <DoubleLeftOutlined style={{fontSize: "14px"}}/>
+          <DoubleLeftOutlined style={{fontSize: "28px"}}/>
         </div>
         <div className="left">
-          <LeftOutlined onClick={() => changePage(-1)} style={{fontSize: "14px"}}/>
+          <LeftOutlined onClick={() => changePage(-1)} style={{fontSize: "28px"}}/>
         </div>
         <div className="pageNumers">
-          {pageNumber.current}/{maxPageNumber.current}
+          <div style={{fontSize: "28px"}}> {pageNumber.current}/{maxPageNumber.current}</div>
         </div>
         <div className="right">
-          <RightOutlined onClick={() => changePage(1)} style={{fontSize: "14px"}}/>
+          <RightOutlined onClick={() => changePage(1)} style={{fontSize: "28px"}}/>
         </div>
         <div className="allRight">
-          <DoubleRightOutlined onClick={() => directPageChange(0)} style={{fontSize: "14px"}}/>
+          <DoubleRightOutlined onClick={() => directPageChange(0)} style={{fontSize: "28px"}}/>
         </div>
       </div>
     </div>

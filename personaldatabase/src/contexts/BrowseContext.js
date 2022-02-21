@@ -9,6 +9,7 @@ export const BrowseProvider = ({ children }) => {
 
   const [requestObject, setRequestObject] = useState(defaultRequestObj);
 
+
   const [detailedObject, setDetailedObject] = useState({});
 
   const constructUrl = async () => {
@@ -28,6 +29,7 @@ export const BrowseProvider = ({ children }) => {
         constructUrl,
         requestObject,
         setRequestObject,
+
         detailedObject,
         setDetailedObject
       }}
