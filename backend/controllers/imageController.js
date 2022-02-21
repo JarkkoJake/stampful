@@ -1,4 +1,5 @@
 const imageDb = require("../db/image");
+const auctionDb = require("../db/Auction");
 const {join} = require("path");
 
 exports.getImageWithId = async (req, res) => {
@@ -14,6 +15,11 @@ exports.postImage = async (req, res) => {
     file.name = splitFileName[0] + "_" + imageId[0] + "." + splitFileName[1];
     newImage.id = imageId[0];
     newImage.path = "images/" + file.name;
+    let auction = {
+      id: req.params.auctionId,
+      thumbnail: imageId
+    }
+    await auctionDb.editAuction(auction);
     await imageDb.addPath(newImage);
     await file.mv(join(__dirname, "../public/images/" + file.name));
   } catch (err) {
