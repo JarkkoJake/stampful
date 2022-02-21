@@ -12,7 +12,7 @@ import "./Post.css";
 const Post = () => {
 
   const { setRoute } = useContext(RouteContext);
-  const { setPostContent, setPostItem, saveAuction } = useContext(PostContext);
+  const { setPostContent, setPostItem, saveAuction, imageData, setImageData} = useContext(PostContext);
 
   const { Option } = Select;
 
@@ -99,14 +99,13 @@ const Post = () => {
   },[]);
 
   const saveAuctionButton = () => {
-    saveAuction(imageData);
+    saveAuction();
     setRoute("Browse");
   };
 
 
   // Images -------------------
 
-  const [imageData, setImageData] = useState(new FormData());
   const [thumbnailUpdate, setThumbnailUpdate] = useState(null);
   const [otherImages, setOtherImages] = useState([]);
 

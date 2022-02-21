@@ -7,6 +7,7 @@ export const PostContext = createContext();
 export const PostProvider = ({ children }) => {
   
   const [postContent, setPostContent] = useState({});
+  const [imageData, setImageData] = useState(new FormData());
 
   const emptyAuction = {};
 
@@ -20,6 +21,15 @@ export const PostProvider = ({ children }) => {
       .post(`${constants.URL}/auctions`, postContent)
       .then((res) => {
         console.log(res);
+        saveImages(res.data[0]);
+      });
+  };
+
+  const saveImages = (auctionId) => {
+    axios
+      .post(`${constants.URL}/image/${auctionId}`, imageData)
+      .then((res) => {
+        console.log(res);
       });
   };
 
@@ -29,6 +39,8 @@ export const PostProvider = ({ children }) => {
         postContent,
         setPostContent,
         emptyAuction,
+        imageData,
+        setImageData,
         setPostItem,
         saveAuction
       }}
