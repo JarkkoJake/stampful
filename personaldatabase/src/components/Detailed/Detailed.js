@@ -16,7 +16,7 @@ const Detailed = () => {
   const auctionItems = auctionItemsList.map((auction) => {
 
     return(
-      <Row className="auctionItem" onClick={() => console.log(auction)} key={auction.id}>
+      <Row className="auctionItem" key={auction.id}>
         <Col className="image">
           <img className="auctionImage" src={logo} alt="Logo"></img>
         </Col>
