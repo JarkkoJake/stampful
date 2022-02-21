@@ -4,6 +4,6 @@ const express = require('express'),
 
 router.get("/:id", imageController.getImageWithId);
 
-router.post("/", imageController.postImage);
+router.post("/:auctionId", imageController.postImage);
 
 module.exports.router = router;
