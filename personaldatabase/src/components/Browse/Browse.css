@@ -53,6 +53,7 @@
 
 .auctionItem{
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.383);
+  transition: 0.1s;
   width: 88vw;
   height: 15vh;
   margin-left: 1vw;
@@ -60,6 +61,13 @@
   background-color: var(--componentbg);
   position: relative;
   border-radius: 4px;
+}
+
+.auctionItem:hover{
+  cursor: pointer;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.7);
+  transform: scale(1.01);
+  transition: 0.1s;
 }
 
 .image, .catalogNumber, .description, .prices, .seller{
