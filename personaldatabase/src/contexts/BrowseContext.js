@@ -9,6 +9,8 @@ export const BrowseProvider = ({ children }) => {
 
   const [requestObject, setRequestObject] = useState(defaultRequestObj);
 
+  const [detailedObject, setDetailedObject] = useState({});
+
   const constructUrl = async () => {
     const keys = Object.keys(requestObject);
     let URL = constants.URL + "/auctions";
@@ -26,6 +28,8 @@ export const BrowseProvider = ({ children }) => {
         constructUrl,
         requestObject,
         setRequestObject,
+        detailedObject,
+        setDetailedObject
       }}
     >
       {children}
