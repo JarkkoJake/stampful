@@ -3,7 +3,8 @@ countryDb = require("../db/country"),
 sellerDb = require("../db/seller"),
 category1Db = require("../db/category1"),
 category2Db = require("../db/category2"),
-category3Db = require("../db/category3");
+category3Db = require("../db/category3"),
+imageDb = require("../db/image");
 const Auction = require("../models/auction");
 
 // send all information about the auction for a detailed view
@@ -29,6 +30,7 @@ exports.browseWithId = async (req, res) => {
     auction.category1 = (await category1Db.getCategory1(auction.category1))[0] || null;
     auction.category2 = (await category2Db.getCategory2(auction.category2))[0] || null;
     auction.category3 = (await category3Db.getCategory3(auction.category3))[0] || null;
+    auction.thumbnail = (await imageDb.getImageWithId(auction.thumbnail))[0] || null;
 
     res.status(200).send([auction]);
   }
@@ -61,9 +63,10 @@ exports.browseListView = async (req, res) => {
 
   var results = await auctionDb.getAuctions(Auction.Auction.listModel, filters, settings);
 
-  // populate the seller object based on id
+  // populate the seller object and thumbnail paths based on id
   for (var i = 0; i < results.length; i++){
     results[i].seller = (await sellerDb.getSeller(results[i].seller))[0] || null;
+    results[i].thumbnail = (await imageDb.getImageWithId(results[i].thumbnail))[0] || null;
   };
   
   // get count of items to calculate total pages
