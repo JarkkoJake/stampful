@@ -4,6 +4,11 @@ function postImage (image) {
   return knex("Images").insert(image);
 }
 
+function addPath (image) {
+  return knex("Images").where({"id": image.id}).update({"path": image.path});
+}
+
 module.exports = {
-  postImage: postImage
+  postImage: postImage,
+  addPath: addPath
 }
