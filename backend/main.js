@@ -17,6 +17,7 @@ const options = {
 app.use(fileupload());
 app.use(cors(options));
 app.use(express.json());
+app.use(express.static("public"));
 
 app.use('/auctions', auctionRouter.router);
 app.use('/dropdown', dropdownRouter.router);
