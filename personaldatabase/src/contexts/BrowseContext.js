@@ -7,13 +7,16 @@ export const BrowseProvider = ({ children }) => {
 
   const defaultRequestObj = {listType: "listbrowse", page: 1};
 
-  const [requestObject, setRequestObject] = useState(defaultRequestObj);
+  let [requestObject, setRequestObject] = useState(defaultRequestObj);
+
+  let [filterObject, setFilterObject] = useState(defaultRequestObj);
 
   const constructUrl = async () => {
     const keys = Object.keys(requestObject);
     let URL = constants.URL + "/auctions";
     keys.forEach(key => {
       if (key === "listType") URL = URL + "/" + requestObject.listType + "?";
+      else if (requestObject[key] === "" || requestObject[key] === false) null;
       else URL = URL + "&" + key + "=" + requestObject[key];
     });
     console.log(URL);
@@ -26,6 +29,9 @@ export const BrowseProvider = ({ children }) => {
         constructUrl,
         requestObject,
         setRequestObject,
+        defaultRequestObj,
+        filterObject,
+        setFilterObject,
       }}
     >
       {children}

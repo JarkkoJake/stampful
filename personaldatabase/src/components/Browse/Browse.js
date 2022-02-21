@@ -130,7 +130,7 @@ const Browse = () => {
 
   return (
     <div>
-      <DrawerComponent visible={drawerOpen} closeFunction={() => {setDrawerOpen(false); refetch();}}/>
+      <DrawerComponent visible={drawerOpen} close={() => {setDrawerOpen(false);}} refetch={() => {setDrawerOpen(false); refetch();}}/>
       <div id="browseHeader">
         <button id="back" onClick={() => setRoute("Menu")} style={{float: "left"}}>
           <ArrowLeftOutlined style={{fontSize: "28px", paddingRight: "12px" }}/>

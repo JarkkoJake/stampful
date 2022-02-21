@@ -247,7 +247,8 @@ body {
   left: 15px;
   font-size: 25px;
   position: absolute;
-  top: 0;
+  top: 500px;
+  left: 50%;
   width: 120px;
   height: 55px;
   margin-top: 15px;
@@ -256,6 +257,13 @@ body {
   background-color: var(--componentbg);
   border: none;
   box-shadow: 0px 0px 30px #00000030;
+  transform: translate(-50%, 0);
+  cursor: pointer;
+}
+
+#applyChanges:hover {
+  box-shadow: 0px 0px 30px #00000030;
+  border: 1px solid rgb(118, 118, 118);
 }
 
 .selectBox, #min, #max {
@@ -358,4 +366,13 @@ input[type='checkbox']:checked:after {
   height: 76px;
   display: flex;
   justify-content: space-between;
+}
+
+.catalogNumberFilter::placeholder, #min::placeholder, #max::placeholder {
+  color: var(--textclrfade);
+  opacity: 1;
+}
+
+.selectBox:disabled{
+  background-color: #00000080;
 }

@@ -8,7 +8,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import "./Browse.css";
 
 const DrawerComponent = (props) => {
-  const { requestObject } = useContext(BrowseContext);
+  const { requestObject, setRequestObject, filterObject} = useContext(BrowseContext);
 
   const [country, setCountry] = useState([]);
   const [category1, setCategory1] = useState([]);
@@ -18,25 +18,34 @@ const DrawerComponent = (props) => {
 
   const URL = constants.URL;
 
+  useEffect(() => {
+    setRequestObject({listType: "listbrowse", page: 1});
+  },[]);
+
   const changeCountry = (element)=> {
-    console.log(element);
+    filterObject.country = element;
     axios
       .get(`${URL}/dropdown/category1?country=${element}`)
       .then((res) => {
-        console.log(res);
         setCategory1(res.data);
+        setCategory2([]);
+        setCategory3([]);
+        
       });
   };
 
   const changeCategory1 = (element)=> {
+    filterObject.category1 = element;
     axios
       .get(`${URL}/dropdown/category2?category1=${element}`)
       .then((res) => {
         setCategory2(res.data);
+        setCategory3([]);
       });
   };
 
   const changeCategory2 = (element)=> {
+    filterObject.category2 = element;
     axios
       .get(`${URL}/dropdown/category3?category2=${element}`)
       .then((res) => {
@@ -81,7 +90,7 @@ const DrawerComponent = (props) => {
   return (
     <Drawer
       placement="left"
-      onClose={props.closeFunction}
+      onClose={props.close}
       closable={true}
       visible={props.visible}
       key="left"
@@ -104,42 +113,42 @@ const DrawerComponent = (props) => {
           <option value="" selected disabled hidden>Category 2</option>
           {category2Options}
         </select>
-        <select disabled={category3.length === 0} name="category3" id="category2" className="selectBox" onChange={(e) => {}}>
+        <select disabled={category3.length === 0} name="category3" id="category2" className="selectBox" onChange={(e) => {filterObject.category3 = e.target.value;}}>
           <option value="" selected disabled hidden>Category 3</option>
           {category3Options}
         </select>
-        <select disabled={seller.length === 0} name="seller" id="seller" className="selectBox" onChange={(e) => {}}>
+        <select disabled={seller.length === 0} name="seller" id="seller" className="selectBox" onChange={(e) => {filterObject.seller = e.target.value;}}>
           <option value="" selected disabled hidden>Seller</option>
           {sellerOptions}
         </select>
 
         <div className="price">
-          <input type="number" id="min" name="min" min="0" placeholder="Min price"/>
+          <input type="number" id="min" name="min" min="0" placeholder="Min price" onChange={(e) => {filterObject.minPrice = e.target.value;}}/>
           <span id="priceDivider">-</span>
-          <input type="number" id="max" name="max" min="0" placeholder="Max price"/>
+          <input type="number" id="max" name="max" min="0" placeholder="Max price" onChange={(e) => {filterObject.maxPrice = e.target.value;}}/>
         </div>
 
         <div className="checkboxes">
           <div className="checkboxWrapper">
             <label className="checkboxHeader">Used</label>
-            <input className="checkbox" type="checkbox"/>
+            <input className="checkbox" type="checkbox" onChange={(e) => {filterObject.used = e.target.checked;}}/>
           </div>
           <div className="checkboxWrapper">
             <label className="checkboxHeader">Mint</label>
-            <input className="checkbox" type="checkbox"/>
+            <input className="checkbox" type="checkbox" onChange={(e) => {filterObject.mint = e.target.checked;}}/>
           </div>
           <div className="checkboxWrapper">
             <label className="checkboxHeader">Postal</label>
-            <input className="checkbox" type="checkbox"/>
+            <input className="checkbox" type="checkbox" onChange={(e) => {filterObject.postalItem = e.target.checked;}}/>
           </div>
           <div className="checkboxWrapper">
             <label className="checkboxHeader">Cert.</label>
-            <input className="checkbox" type="checkbox"/>
+            <input className="checkbox" type="checkbox" onChange={(e) => {filterObject.certificate = e.target.checked;}}/>
           </div>
         </div>
-        <input className="catalogNumberFilter" placeHolder={"Catalog number"} />
+        <input className="catalogNumberFilter" placeholder={"Catalog number"} onChange={(e) => {filterObject.catalogueNumber = e.target.value;}}/>
 
-        <button id="applyChanges">
+        <button id="applyChanges" onClick={() => {setRequestObject(filterObject); props.refetch();}}>
         Apply
         </button>
       </div>
