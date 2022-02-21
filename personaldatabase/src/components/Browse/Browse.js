@@ -51,9 +51,9 @@ const Browse = () => {
               pageNumber.current = pageNumber.current + direction;
               maxPageNumber.current = res.data.info.totalPages;
               setAuctionItemsList(res.data.auctions);
+              console.log(res.data.auctions);
             });
         });
-      
     }
   };
 
@@ -85,7 +85,7 @@ const Browse = () => {
     return (
       <Row className="auctionItem" key={auction.id}>
         <Col className="image">
-          <img className="auctionImage" src={logo} alt="Logo"></img>
+          <img className="auctionImage" src={auction.thumbnail || logo} alt="Logo"></img>
         </Col>
         <Col className="catalogNumber">
           <div className="centeringWrapper">

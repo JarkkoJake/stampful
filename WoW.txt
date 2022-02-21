@@ -1,5 +1,2 @@
-- Every member has their own branch (Firstname with capital first letter)
-- Merge into "Testing" before main (merge testing to main if everything OK)
-- Add Jira issue ID to commit messages for traceability
 - Each pull request is reviewed by another member
 - Merge conflicts should be resolved with the memebers that it affected
