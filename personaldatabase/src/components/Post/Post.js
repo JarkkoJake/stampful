@@ -12,7 +12,7 @@ import "./Post.css";
 const Post = () => {
 
   const { setRoute } = useContext(RouteContext);
-  const { setPostContent, setPostItem, saveAuction } = useContext(PostContext);
+  const { setPostContent, setPostItem, saveAuction, imageData, setImageData} = useContext(PostContext);
 
   const { Option } = Select;
 
@@ -104,24 +104,23 @@ const Post = () => {
   };
 
 
-  // TESTING-------------------
+  // Images -------------------
 
-  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailUpdate, setThumbnailUpdate] = useState(null);
+  const [otherImages, setOtherImages] = useState([]);
 
   const changeImage = (e) => {
-    setThumbnail(e.target.files[0]);
-    console.log(e.target.files);
-    var thumbnailData = new FormData();
-    /*thumbnailData.append("thumbnail", thumbnail, thumbnail.name);
-    setPostItem("thumbnail", thumbnailData);*/
-    var fr = new FileReader();
-    fr.onload = function () {
-      document.getElementById("imagetesting").src = fr.result;
-      console.log(thumbnail.name || "no name");
-    };
-    fr.readAsDataURL(thumbnail);
-
+    imageData.set(e.target.id, e.target.files[0]);
+    setThumbnailUpdate(e.target.files[0]);
+    setImageData(imageData);
   };
+  
+  useLayoutEffect(() => {
+    if (imageData.get("thumbnail")) {
+      document.getElementById("imagetesting").src = URL.createObjectURL(imageData.get("thumbnail"));
+    }
+  }, [thumbnailUpdate]);
+
   //----------------------------
 
 
@@ -256,8 +255,9 @@ const Post = () => {
 
             <Col className="thumbnailFirstRow" style={{width: "calc(50% - 5px)"}}> 
               {/*TESTING-----------------------*/}
-              <img id="imagetesting" src={logo} alt="Logo"></img>
-              <input type="file" style={{marginTop: "5px"}} onChange={() => {setTimeout(500, changeImage);}}></input>
+              <img id="imagetesting" src={imageData.get("thumbnail") ? URL.createObjectURL(imageData.get("thumbnail")) : logo} alt="Logo"></img>
+              <input type="file" id="thumbnail" onChange={changeImage}></input>
+
               {/*------------------------*/}
             </Col>
             <Col className="thumbnailSecondRow">

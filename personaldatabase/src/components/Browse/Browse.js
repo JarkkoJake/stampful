@@ -84,7 +84,7 @@ const Browse = () => {
     return (
       <Row className="auctionItem" key={auction.id}>
         <Col className="image">
-          <img className="auctionImage" src={auction.thumbnail || logo} alt="Logo"></img>
+          <img className="auctionImage" src={auction.thumbnail ? constants.URL + "/" + auction.thumbnail.path : logo} alt="Logo"></img>
         </Col>
         <Col className="catalogNumber">
           <div className="centeringWrapper">
