@@ -20,13 +20,14 @@ import "./Browse.css";
 
 const Browse = () => {
   const { setRoute } = useContext(RouteContext);
-  const { constructUrl, requestObject } = useContext(BrowseContext);
+  const { constructUrl, requestObject, detailedObject, setDetailedObject } = useContext(BrowseContext);
   const [auctionItemsList, setAuctionItemsList] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pageNumber = useRef(1);
   const maxPageNumber = useRef(1);
 
   useEffect(() => {
+    setDetailedObject({});
     constructUrl()
       .then((URL) => {
         axios
@@ -83,7 +84,7 @@ const Browse = () => {
 
   const auctionItems = auctionItemsList.map((auction) => {
     return (
-      <Row className="auctionItem" onClick={() => setRoute("Detailed")} key={auction.id}>
+      <Row className="auctionItem" onClick={() => {setDetailedObject(auction); setRoute("Detailed"); console.log(auction);}} key={auction.id}>
         <Col className="image">
           <img className="auctionImage" src={auction.thumbnail || logo} alt="Logo"></img>
         </Col>

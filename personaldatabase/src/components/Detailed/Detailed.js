@@ -2,80 +2,98 @@ import React, { useContext, useState, useLayoutEffect, useRef, useEffect } from 
 import axios from "axios";
 import { constants } from "../../Constants";
 import { RouteContext } from "../../Contexts/RouterContext";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Select, Input, Checkbox } from "antd";
 import "antd/dist/antd.css";
-import { LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, EditOutlined } from "@ant-design/icons";
 import logo from "../../public/images/StampLogo.png";
 import "./Detailed.css";
+import { BrowseContext } from "../../Contexts/BrowseContext";
+import "../Post/Post.css";
+
 
 const Detailed = () => {
   const { setRoute } = useContext(RouteContext);
+  const { detailedObject, setDetailedObject } = useContext(BrowseContext);
 
-  const [auctionItemsList, setAuctionItemsList] = useState([]);
+  const [auctionItemsList, setAuctionItemsList] = useState([detailedObject]);
 
-  const auctionItems = auctionItemsList.map((auction) => {
-
-    return(
-      <Row className="auctionItem" key={auction.id}>
-        <Col className="image">
-          <img className="auctionImage" src={logo} alt="Logo"></img>
-        </Col>
-        <Col className="catalogNumber">
-          <div className="centeringWrapper">
-            <h2 className="catalogText">{auction.catalogueNumber ? auction.catalogueNumber : "-"}</h2>
-          </div>
-        </Col>
-        <Col className="description">
-          <div className="centeringWrapperDescription">
-            <h2 className="descriptionText">
-              {auction.description ? auction.description : "-" }
-            </h2>
-          </div>
-        </Col>
-        <Col className="prices">
-          <Row className="startingPrice">
-            <div className="centeringWrapper">
-              <h3 className="infoHeader">{auction.startingPrice  ? auction.startingPrice : "-" }{auction.currency ? auction.currency : "" }</h3>
-            </div>
-          </Row>
-            
-          <Row className="sellingPrice">
-            <div className="centeringWrapper">
-              <h3 className="infoHeader">{auction.sellingPrice ? auction.sellingPrice : "-" }{auction.currency ? auction.currency : "" }</h3>
-            </div>
-          </Row>
-        </Col>
-        <Col className="seller">
-          <Row className="sellingYear">
-            <div className="centeringWrapper">
-              <h3 className="infoHeader">{auction.sellingYear ? auction.sellingYear : "-" }</h3>
-            </div>
-          </Row>
-          <Row className="sellerName">
-            <div className="centeringWrapper">
-              <h3 className="infoHeader">{auction.seller ? auction.seller.name : "-" }</h3>
-            </div>
-          </Row>
-        </Col>
-      </Row>
-    );
-  });
+  const { TextArea } = Input;
 
   return (
     <div>
-      <div id="browseHeader">
+      <div id="PostHeader">
         <button id="back" onClick={() => setRoute("Browse")} style={{float: "left"}}>
           <ArrowLeftOutlined style={{fontSize: "2.3vh", paddingRight: "6px" }}/>
-            Browse
+          Back
         </button>
-        <div id="browseView">
-          <p id="browseText"> Detailed view </p>
-
+        <div id="postView">
+          <p id="postText"> Detailed view </p>
         </div>
+        <button id="save" onClick={() => setRoute("Edit")} style={{float: "right"}}>
+          Edit
+          <EditOutlined style={{fontSize: "2.3vh", paddingLeft: "6px" }}/>
+        </button>
       </div>
 
-      <div id="browseMainBody">
-        {auctionItems}
+      <div id="postWrapper">
+        <Row justify="space-around" align="middle" className="firstRow">
+          <Col className="columnFirstRow" style={{width: "calc(33% - 5px)"}}>
+            <Col
+              className="categoryMenu"
+              placeholder="Country"
+            >{detailedObject.catalogueNumber ? detailedObject.catalogueNumber : "-"}
+            </Col>
+          </Col>
+          <Col className="columnFirstRow" style={{width: "calc(66% - 5px)"}}>
+          </Col>
+        </Row>
+
+        <Row justify="space-around" align="middle" className="secondRow">
+          <Col className="columnThumbnail" style={{width: "calc(40% - 5px)"}}>
+            <Col className="thumbnailFirstRow" style={{width: "calc(50% - 5px)"}}> 
+            </Col>
+            <Col className="thumbnailSecondRow">
+            </Col>
+          </Col>
+
+
+
+          <Col className="columnInfo" style={{width: "calc(59% - 5px)"}}>
+            <Row justify="space-around" align="middle" className="stampInfoRow">
+              <Col className="stampInfoColumn" style={{width: "calc(100% - 5px)"}}>
+
+                <Row justify="space-around" align="middle" className="stampInfoRowTopTop">
+                  <Col
+                    id="infoInput"
+                    style={{minWidth: "130px"}}
+                    placeholder="catalogText">{detailedObject.catalogueNumber ? detailedObject.catalogueNumber : "-"}
+                  </Col>
+                </Row>
+                
+                <Row align="middle" className="stampInfoRowTopBottom">
+                  <Col id="infoInputStartingPrice" style={{minWidth: "180px"}} 
+                    placeholder="Starting price" > {detailedObject.startingPrice  ? detailedObject.startingPrice : "-" }{detailedObject.currency ? detailedObject.currency : "" }
+                  </Col>
+                  <Col id="infoInputSellingPrice" style={{minWidth: "180px"}} 
+                    placeholder="Selling price" > {detailedObject.sellingPrice ? detailedObject.sellingPrice : "-" }{detailedObject.currency ? detailedObject.currency : "" }
+                  </Col>
+                  <Col id="infoInputCurrency" 
+                    placeholder="Selling price" >{detailedObject.currency ? detailedObject.currency : "" }
+                  </Col>
+                </Row>
+
+              </Col>
+            </Row>
+            <Row justify="space-around" align="middle" className="stampSellerRow">
+              <Col className="stampSellerColumn" style={{width: "calc(100% - 5px)"}}>
+                <Row justify="space-around" align="middle" className="stampInfoRowBottom">
+                </Row>
+                <Row justify="space-around" align="middle" className="stampInfoRowBottom">
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </div>
     </div>
   );
