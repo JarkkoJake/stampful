@@ -39,8 +39,7 @@ const Menu = ({ title }) => {
       <Drawer title={username} placement="right" onClose={onClose} visible={visible}>
         <button className="settingsButton">Settings <SettingFilled/></button>
         <button className="logoutButton" onClick={() => setRoute("Index")}>
-          Logout 
-          <LogoutOutlined/>
+          Logout <LogoutOutlined/>
         </button>
         <h3 className="appVersion">App version 01.00.00</h3>
       </Drawer>
