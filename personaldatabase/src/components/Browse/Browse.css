@@ -241,7 +241,7 @@ body {
   left: 0;
 }
 
-#clearAll {
+#clearAll{
   left: 15px;
   font-size: 20px;
   position: absolute;
@@ -251,16 +251,45 @@ body {
   margin-top: 15px;
 }
 
+#applyChanges {
+  left: 15px;
+  font-size: 25px;
+  position: absolute;
+  top: 500px;
+  left: 50%;
+  width: 120px;
+  height: 55px;
+  margin-top: 15px;
+  border-radius: 30px;
+  color: var(--textclr);
+  background-color: var(--componentbg);
+  border: none;
+  box-shadow: 0px 0px 30px #00000030;
+  transform: translate(-50%, 0);
+  cursor: pointer;
+}
+
+#applyChanges:hover {
+  box-shadow: 0px 0px 30px #00000030;
+  border: 1px solid rgb(118, 118, 118);
+}
+
 .selectBox, #min, #max {
   cursor: pointer;
 }
 
-.selectBox:hover, #min:hover, #max:hover {
+.selectBox:hover, #min:hover, #max:hover, .catalogNumberFilter:hover {
   border-color: var(--hover);
   transition: 0.15s;
 }
 
-.selectBox{
+.catalogNumberFilter{
+  box-shadow: 0px 0px 30px #00000080;
+  border: 1px solid rgb(118, 118, 118);
+  margin-top: 10px;
+}
+
+.selectBox, .catalogNumberFilter{
   margin-left: 38px;
   width: 80%;
   height: 45px;
@@ -345,4 +374,13 @@ input[type='checkbox']:checked:after {
   height: 76px;
   display: flex;
   justify-content: space-between;
+}
+
+.catalogNumberFilter::placeholder, #min::placeholder, #max::placeholder {
+  color: var(--textclrfade);
+  opacity: 1;
+}
+
+.selectBox:disabled{
+  background-color: #00000080;
 }
