@@ -9,9 +9,11 @@ import {
   LogoutOutlined
 } from "@ant-design/icons";
 import "./Menu.css";
+import { LoginContext } from "../../Contexts/LoginContext";
 
 const Menu = ({ title }) => {
   const { setRoute } = useContext(RouteContext);
+  const { username } = useContext(LoginContext);
   const [visible, setVisible] = useState(false);
 
   const showDrawer = (value) => {
@@ -34,7 +36,7 @@ const Menu = ({ title }) => {
         Post
       </button>
       <UnorderedListOutlined id="sideMenuButton" onClick={() => showDrawer(true)}/>
-      <Drawer title="John Doe" placement="right" onClose={onClose} visible={visible}>
+      <Drawer title={username} placement="right" onClose={onClose} visible={visible}>
         <button className="settingsButton">Settings <SettingFilled/></button>
         <button className="logoutButton" onClick={() => setRoute("Index")}>
           Logout 
