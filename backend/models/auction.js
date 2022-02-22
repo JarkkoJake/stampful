@@ -41,7 +41,19 @@ class Auction {
     thumbnail: "thumbnail",
     date: "date",
     description: "description",
-    catalogueNumber: "catalogueNumber"
+    catalogueNumber: "catalogueNumber",
+    country: "country",
+    category1: "category1",
+    category2: "category2",
+    category3: "category3",
+    used: "used",
+    mint: "mint",
+    postalItem: "postalItem",
+    certificate: "certificate",
+    auctionNumber: "auctionNumber",
+    lotNumber: "lotNumber",
+    date: "date",
+    user: "user",
   };
 
   // used to check if the auction is assigned a country, seller or category that does not exist
