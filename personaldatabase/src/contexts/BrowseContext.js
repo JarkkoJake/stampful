@@ -11,14 +11,24 @@ export const BrowseProvider = ({ children }) => {
 
   let [filterObject, setFilterObject] = useState(defaultRequestObj);
 
-  const constructUrl = async () => {
-    const keys = Object.keys(requestObject);
+  const constructUrl = async (reqObj) => {
+    let keys;
     let URL = constants.URL + "/auctions";
-    keys.forEach(key => {
-      if (key === "listType") URL = URL + "/" + requestObject.listType + "?";
-      else if (requestObject[key] === "" || requestObject[key] === false) null;
-      else URL = URL + "&" + key + "=" + requestObject[key];
-    });
+    if (reqObj) {
+      keys = Object.keys(reqObj);
+      keys.forEach(key => {
+        if (key === "listType") URL = URL + "/" + reqObj.listType + "?";
+        else if (reqObj[key] === "" || reqObj[key] === false) null;
+        else URL = URL + "&" + key + "=" + reqObj[key];
+      });
+    } else {
+      keys = Object.keys(requestObject);
+      keys.forEach(key => {
+        if (key === "listType") URL = URL + "/" + requestObject.listType + "?";
+        else if (requestObject[key] === "" || requestObject[key] === false) null;
+        else URL = URL + "&" + key + "=" + requestObject[key];
+      });
+    }
     console.log(URL);
     return URL;
   };

@@ -51,14 +51,13 @@ const Browse = () => {
               pageNumber.current = pageNumber.current + direction;
               maxPageNumber.current = res.data.info.totalPages;
               setAuctionItemsList(res.data.auctions);
-              console.log(res.data.auctions);
             });
         });
     }
   };
 
-  const refetch = () => {
-    constructUrl()
+  const refetchWithFilter = (filterObject) => {
+    constructUrl(filterObject)
       .then((URL) => {
         axios
           .get(URL)
@@ -130,7 +129,7 @@ const Browse = () => {
 
   return (
     <div>
-      <DrawerComponent visible={drawerOpen} close={() => {setDrawerOpen(false);}} refetch={() => {setDrawerOpen(false); refetch();}}/>
+      <DrawerComponent visible={drawerOpen} close={() => {setDrawerOpen(false);}} refetch={(e) => {setDrawerOpen(false); refetchWithFilter(e);}}/>
       <div id="browseHeader">
         <button id="back" onClick={() => setRoute("Menu")} style={{float: "left"}}>
           <ArrowLeftOutlined style={{fontSize: "28px", paddingRight: "12px" }}/>

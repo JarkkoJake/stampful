@@ -8,7 +8,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import "./Browse.css";
 
 const DrawerComponent = (props) => {
-  const { requestObject, setRequestObject, filterObject} = useContext(BrowseContext);
+  const { requestObject, setRequestObject, filterObject, setFilterObject } = useContext(BrowseContext);
 
   const [country, setCountry] = useState([]);
   const [category1, setCategory1] = useState([]);
@@ -22,6 +22,27 @@ const DrawerComponent = (props) => {
     setRequestObject({listType: "listbrowse", page: 1});
   },[]);
 
+  const clearFunction = () => {
+    const selectBox = document.getElementsByClassName("selectBox");
+    for (let index = 0; index < selectBox.length; index++) {
+      selectBox[index].value = "";
+      setCategory1([]);
+      setCategory2([]);
+      setCategory3([]);
+    }
+    const price = document.getElementsByName("price");
+    price.forEach(element => {
+      element.value = "";
+    });
+    const checkboxes = document.getElementsByClassName("checkbox");
+    for (let index = 0; index < checkboxes.length; index++) {
+      checkboxes[index].checked = false;
+    }
+    const catalogNumber = document.getElementsByClassName("catalogNumberFilter");
+    catalogNumber[0].value = "";
+    setFilterObject({listType: "listbrowse", page: 1});
+  };
+
   const changeCountry = (element)=> {
     filterObject.country = element;
     axios
@@ -30,7 +51,9 @@ const DrawerComponent = (props) => {
         setCategory1(res.data);
         setCategory2([]);
         setCategory3([]);
-        
+        filterObject.category1 = "";
+        filterObject.category2 = "";
+        filterObject.category3 = "";
       });
   };
 
@@ -41,6 +64,8 @@ const DrawerComponent = (props) => {
       .then((res) => {
         setCategory2(res.data);
         setCategory3([]);
+        filterObject.category2 = "";
+        filterObject.category3 = "";
       });
   };
 
@@ -50,6 +75,7 @@ const DrawerComponent = (props) => {
       .get(`${URL}/dropdown/category3?category2=${element}`)
       .then((res) => {
         setCategory3(res.data);
+        filterObject.category3 = "";
       });
   };
 
@@ -97,35 +123,35 @@ const DrawerComponent = (props) => {
       maskClosable={false}
       width={"380px"}
     >
-      <button id="clearAll">
+      <button id="clearAll" onClick={() => {clearFunction();}}>
         Clear all
       </button>
       <div className="filterWrapper">
         <select name="country" id="country" className="selectBox" onChange={(e) => {changeCountry(e.target.value);}}>
-          <option value="" selected disabled hidden>Country</option>
+          <option value="" hidden>Country</option>
           {countryOptions}
         </select>
         <select disabled={category1.length === 0} name="category1" id="category1" className="selectBox" onChange={(e) => {changeCategory1(e.target.value);}}>
-          <option value="" selected disabled hidden>Category 1</option>
+          <option value="" hidden>Category 1</option>
           {category1Options}
         </select>
         <select disabled={category2.length === 0} name="category2" id="category2" className="selectBox" onChange={(e) => {changeCategory2(e.target.value);}}>
-          <option value="" selected disabled hidden>Category 2</option>
+          <option value="" hidden>Category 2</option>
           {category2Options}
         </select>
-        <select disabled={category3.length === 0} name="category3" id="category2" className="selectBox" onChange={(e) => {filterObject.category3 = e.target.value;}}>
-          <option value="" selected disabled hidden>Category 3</option>
+        <select disabled={category3.length === 0} name="category3" id="category3" className="selectBox" onChange={(e) => {filterObject.category3 = e.target.value;}}>
+          <option value="" hidden>Category 3</option>
           {category3Options}
         </select>
         <select disabled={seller.length === 0} name="seller" id="seller" className="selectBox" onChange={(e) => {filterObject.seller = e.target.value;}}>
-          <option value="" selected disabled hidden>Seller</option>
+          <option value="" hidden>Seller</option>
           {sellerOptions}
         </select>
 
         <div className="price">
-          <input type="number" id="min" name="min" min="0" placeholder="Min price" onChange={(e) => {filterObject.minPrice = e.target.value;}}/>
+          <input type="number" id="min" name="price" min="0" placeholder="Min price" onChange={(e) => {filterObject.minPrice = e.target.value;}}/>
           <span id="priceDivider">-</span>
-          <input type="number" id="max" name="max" min="0" placeholder="Max price" onChange={(e) => {filterObject.maxPrice = e.target.value;}}/>
+          <input type="number" id="max" name="price" min="0" placeholder="Max price" onChange={(e) => {filterObject.maxPrice = e.target.value;}}/>
         </div>
 
         <div className="checkboxes">
@@ -148,7 +174,7 @@ const DrawerComponent = (props) => {
         </div>
         <input className="catalogNumberFilter" placeholder={"Catalog number"} onChange={(e) => {filterObject.catalogueNumber = e.target.value;}}/>
 
-        <button id="applyChanges" onClick={() => {setRequestObject(filterObject); props.refetch();}}>
+        <button id="applyChanges" onClick={() => {setRequestObject(filterObject); props.refetch(filterObject);}}>
         Apply
         </button>
       </div>
