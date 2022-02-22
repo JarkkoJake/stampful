@@ -64,7 +64,7 @@ const Index = ({ title }) => {
 };
 
 Index.defaultProps = {
-  title: "Stamp auction database",
+  title: "Stampful",
 };
 
 Index.protoTypes = {

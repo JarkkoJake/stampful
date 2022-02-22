@@ -47,7 +47,7 @@ const Menu = ({ title }) => {
 };
 
 Menu.defaultProps = {
-  title: "Stamp auction database",
+  title: "Stampful",
 };
 
 Menu.protoTypes = {
