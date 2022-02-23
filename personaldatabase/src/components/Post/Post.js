@@ -4,7 +4,7 @@ import { PostContext } from "../../Contexts/PostContext";
 import { constants } from "../../Constants";
 import { Row, Col, Select, Input } from "antd";
 import axios from "axios";
-import { ArrowLeftOutlined, SaveOutlined  } from "@ant-design/icons";
+import { ArrowLeftOutlined, SaveOutlined, PlusCircleFilled } from "@ant-design/icons";
 import logo from "../../public/images/StampLogo.png";
 import "antd/dist/antd.css";
 import "./Post.css";
@@ -14,10 +14,7 @@ const Post = () => {
   const { setRoute } = useContext(RouteContext);
   const { setPostContent, setPostItem, saveAuction, imageData, setImageData} = useContext(PostContext);
 
-
   const { TextArea } = Input;
-  
-  const additionalImages = ["image1", "image2", "image3"];
 
   const [countryOptionsArray, setCountryOptionsArray] = useState([]);
   const [sellerList, setSellerList] = useState([]);
@@ -72,6 +69,9 @@ const Post = () => {
 
 
   useLayoutEffect(() => {
+    setImageData(new FormData());
+    document.getElementById("thumbnail").src = logo;
+    document.getElementById("additionalImages").innerHTML = null;
     axios
       .get(`${constants.URL}/dropdown/country`)
       .then((res) => {
@@ -99,31 +99,37 @@ const Post = () => {
   const [thumbnailUpdate, setThumbnailUpdate] = useState(null);
   const [otherImages, setOtherImages] = useState([]);
 
-  const changeImage = (e) => {
-    console.log(e.target.id);
-    console.log(e.target.files);
-    imageData.set(e.target.id, e.target.files[0]);
-    setThumbnailUpdate(e.target.files[0]);
-    setImageData(imageData);
+  const addImage = (e) => {
+    for (let index = 0; index < e.target.files.length; index++) {
+      const element = e.target.files[index];
+      imageData.append("thumbnail", element);
+      setThumbnailUpdate(element);
+      setImageData(imageData);
+    }
   };
   
   useLayoutEffect(() => {
-    if (imageData.get("thumbnail")) {
-      document.getElementById("imagetesting").src = URL.createObjectURL(imageData.get("thumbnail"));
+    const imageDataObject = imageData.getAll("thumbnail");
+    const imageArray = Object.keys(imageData.getAll("thumbnail"));
+    if (imageData.getAll("thumbnail") && imageArray.length > 0) {
+     
+      document.getElementById("thumbnail").src = URL.createObjectURL(imageDataObject[0]);
+    
+
+      if (imageArray.length > 1) {
+        document.getElementById("additionalImages").innerHTML = null;
+        for (let index = 1; index < imageArray.length; index++) {
+          let image = document.createElement("img");
+          image.src =  URL.createObjectURL(imageDataObject[index]);
+          image.className = "columnThumbnailAdditional";
+          image.id= "thumbnail" + index;
+          document.getElementById("additionalImages").appendChild(image);
+        }}
     }
+  
   }, [thumbnailUpdate]);
 
   //----------------------------
-
-  const imagesColumns = additionalImages.map((image) =>
-    <img
-      key={image}
-      id={image}
-      src={logo}
-      className={"columnThumbnailAdditional"}/>
-  );
-
-
 
   const countryOptions = countryOptionsArray.map((country) =>
     <option key={country.id} value={country.id}>{country.name}</option>
@@ -191,17 +197,16 @@ const Post = () => {
           </Col>
         </Row>
         <Row justify="space-around" align="middle" className="secondRow">
-
           <Col className="columnThumbnail" style={{width: "calc(40% - 5px)"}}>
-
+            <label htmlFor="thumbnailInput" className="custom-file-upload">
+              <PlusCircleFilled className="addImagesButton" /> 
+              <span id="tooltiptext">Add images</span>
+            </label>
+            <input type="file" id="thumbnailInput" multiple accept="image/*" onChange={addImage} />
             <Row className="thumbnailFirstRow"> 
-              {/*TESTING-----------------------*/}
-              <img id="imagetesting" className="postMainImage" src={imageData.get("thumbnail") ? URL.createObjectURL(imageData.get("thumbnail")) : logo} alt="Logo"></img>
-              <input className type="file" id="thumbnail" onChange={changeImage} />
-              {/*------------------------*/}
+              <img id="thumbnail" className="postMainImage" src={logo} alt="Logo"></img>
             </Row>
-            <Row className="thumbnailSecondRow">
-              {imagesColumns}
+            <Row className="thumbnailSecondRow" id="additionalImages">
             </Row>
           </Col>
 

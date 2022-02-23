@@ -20,7 +20,6 @@ export const PostProvider = ({ children }) => {
     axios
       .post(`${constants.URL}/auctions`, postContent)
       .then((res) => {
-        console.log(res);
         saveImages(res.data[0]);
       });
   };
@@ -29,7 +28,6 @@ export const PostProvider = ({ children }) => {
     axios
       .post(`${constants.URL}/image/${auctionId}`, imageData)
       .then((res) => {
-        console.log(res);
       });
   };
 
