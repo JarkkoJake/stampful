@@ -263,7 +263,7 @@ body {
 
 #applyChanges:hover {
   box-shadow: 0px 0px 30px #00000030;
-  border: 1px solid rgb(118, 118, 118);
+  border: 1px solid var(--border);
 }
 
 .selectBox, #min, #max {
@@ -277,7 +277,7 @@ body {
 
 .catalogNumberFilter{
   box-shadow: 0px 0px 30px #00000080;
-  border: 1px solid rgb(118, 118, 118);
+  border: 1px solid var(--border);
   margin-top: 10px;
 }
 
@@ -301,7 +301,7 @@ body {
 }
 #min, #max {
   box-shadow: 0px 0px 30px #00000080;
-  border: 1px solid rgb(118, 118, 118);
+  border: 1px solid var(--border);
   background-color: var(--mainclr1);
   color: var(--textclr);
   width: 40%;
@@ -322,7 +322,7 @@ body {
 }
 
 .checkboxWrapper {
-  border: 1px solid rgb(118, 118, 118);
+  border: 1px solid var(--border);
   box-shadow: 0px 0px 30px #00000040;
   width: 60px;
   height: 75px;
@@ -353,7 +353,7 @@ input[type='checkbox']{
   text-align: center;
   background: var(--textclr);
   font-size: 19px;
-}
+} 
 
 input[type='checkbox']:checked:after {
   content: '✔';

@@ -120,7 +120,7 @@ const DrawerComponent = (props) => {
       closable={true}
       visible={props.visible}
       key="left"
-      maskClosable={false}
+      maskClosable={true}
       width={"380px"}
     >
       <button id="clearAll" onClick={() => {clearFunction();}}>
