@@ -71,13 +71,16 @@ const Browse = () => {
   };
 
   const directPageChange = (number) => {
-    if (number === 0) number = maxPageNumber.current;
-    axios
-      .get(`${URL}/auctions/listbrowse?page=${number}`)
-      .then((res) => {
-        pageNumber.current = number;
-        maxPageNumber.current = res.data.info.totalPages;
-        setAuctionItemsList(res.data.auctions);
+    requestObject.page = number === 0 ? maxPageNumber.current : 1;
+    constructUrl()
+      .then((URL) => {
+        axios
+          .get(URL)
+          .then((res) => {
+            pageNumber.current = number === 0 ? res.data.info.totalPages : 1;
+            maxPageNumber.current = res.data.info.totalPages;
+            setAuctionItemsList(res.data.auctions);
+          });
       });
   };
 
