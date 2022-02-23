@@ -1,2 +1,0 @@
-- Each pull request is reviewed by another member
-- Merge conflicts should be resolved with the memebers that it affected

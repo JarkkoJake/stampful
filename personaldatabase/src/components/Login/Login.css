@@ -7,6 +7,8 @@
   --placeholderclr: #e3e3e398;
   --selectedclr: #69acac;
   --hover: #00000080;
+  --antd-wave-shadow-color: #e3e3e3aa;
+  --border: rgb(97, 97, 97);
 }
 .header {
   color: var(--textclr);
