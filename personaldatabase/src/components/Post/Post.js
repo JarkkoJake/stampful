@@ -71,6 +71,7 @@ const Post = () => {
   useLayoutEffect(() => {
     setImageData(new FormData());
     document.getElementById("thumbnail").src = logo;
+    document.getElementById("thumbnail").style = "height: 43vh";
     document.getElementById("additionalImages").innerHTML = null;
     axios
       .get(`${constants.URL}/dropdown/country`)
@@ -112,7 +113,7 @@ const Post = () => {
     const imageDataObject = imageData.getAll("thumbnail");
     const imageArray = Object.keys(imageData.getAll("thumbnail"));
     if (imageData.getAll("thumbnail") && imageArray.length > 0) {
-     
+      if (imageArray.length > 1) document.getElementById("thumbnail").style = "";
       document.getElementById("thumbnail").src = URL.createObjectURL(imageDataObject[0]);
     
 
@@ -125,6 +126,8 @@ const Post = () => {
           image.id= "thumbnail" + index;
           document.getElementById("additionalImages").appendChild(image);
         }}
+    } else {
+      document.getElementById("thumbnail").style = "height: 43vh";
     }
   
   }, [thumbnailUpdate]);
