@@ -1,5 +1,4 @@
 import React, { useContext, useState, useLayoutEffect, useRef, useEffect } from "react";
-import axios from "axios";
 import { constants } from "../../Constants";
 import { RouteContext } from "../../Contexts/RouterContext";
 import { Row, Col, Button, Select, Input, Checkbox } from "antd";
@@ -8,7 +7,8 @@ import { ArrowLeftOutlined, EditOutlined } from "@ant-design/icons";
 import logo from "../../public/images/StampLogo.png";
 import "./Detailed.css";
 import { BrowseContext } from "../../Contexts/BrowseContext";
-import "../Post/Post.css";
+import "antd/dist/antd.css";
+
 
 
 const Detailed = () => {
@@ -21,13 +21,13 @@ const Detailed = () => {
 
   return (
     <div>
-      <div id="PostHeader">
+      <div id="detailHeader">
         <button id="back" onClick={() => setRoute("Browse")} style={{float: "left"}}>
           <ArrowLeftOutlined style={{fontSize: "2.3vh", paddingRight: "6px" }}/>
           Back
         </button>
-        <div id="postView">
-          <p id="postText"> Detailed view </p>
+        <div id="detailView">
+          <p id="detailText"> Detailed view </p>
         </div>
         <button id="save" onClick={() => setRoute("Edit")} style={{float: "right"}}>
           Edit
@@ -35,33 +35,33 @@ const Detailed = () => {
         </button>
       </div>
 
-      <div id="postWrapper">
+      <div id="detailWrapper">
         <Row justify="space-around" align="middle" className="firstRow">
           <Col className="columnFirstRow" style={{width: "calc(33% - 5px)"}}>
             <div
-              className="categoryMenu"
-              placeholder="Country">
+              className="selectBoxDetail"
+              id="country">
               {detailedObject.country ? detailedObject.country.name : "-"}
             </div>
             <div
-              className="categoryMenu"
-              placeholder="Country">
+              className="selectBoxDetail"
+              id="country">
               {detailedObject.category1 ? detailedObject.category1 : "-"}
             </div>
             <div
-              className="categoryMenu"
-              placeholder="Country">
+              className="selectBoxDetail"
+              placeholder="country">
               {detailedObject.category2 ? detailedObject.category2 : "-"}
             </div>
             <div
-              className="categoryMenu"
-              placeholder="Country">
+              className="selectBoxDetail"
+              placeholder="country">
               {detailedObject.category3 ? detailedObject.category3 : "-"}
             </div>
           </Col>
 
           <Col className="columnFirstRow" style={{width: "calc(66% - 5px)"}}>
-            <Col className="centeringWrapperDescription" placeholder="Description" id="descriptionField">
+            <Col placeholder="Description" id="descriptionFieldDetail">
               {detailedObject.description ? detailedObject.description : "-"}
             </Col>
           </Col>
@@ -83,22 +83,21 @@ const Detailed = () => {
           <Col className="columnInfo" style={{width: "calc(59% - 5px)"}}>
             <Row justify="space-around" align="middle" className="stampInfoRow">
               <Col className="stampInfoColumn" style={{width: "calc(100% - 5px)"}}>
-
                 <Row justify="space-around" align="middle" className="stampInfoRowTopTop">
-                  <Col className="checkBoxText">
+                  <Col className="checkboxWrapperDetail">
                     {detailedObject.used ? detailedObject.used : "-"}
                   </Col>
-                  <Col className="checkBoxText">
+                  <Col className="checkboxWrapperDetail">
                     {detailedObject.mint ? detailedObject.mint : "-"}
                   </Col>
-                  <Col className="checkBoxText">
+                  <Col className="checkboxWrapperDetail">
                     {detailedObject.postalItem ? "☑" : "-"}
                   </Col>
-                  <Col className="checkBoxText">
+                  <Col className="checkboxWrapperDetail">
                     {detailedObject.certificate ? detailedObject.certificate : "-"}
                   </Col>
                   <Col
-                    id="infoInput" style={{minWidth: "130px"}} placeholder="catalogText">
+                    className="checkboxWrapperDetail" style={{minWidth: "130px"}} placeholder="catalogText">
                     {detailedObject.catalogueNumber ? detailedObject.catalogueNumber : "-"}
                   </Col>
                 </Row>
