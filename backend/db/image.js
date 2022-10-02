@@ -1,5 +1,6 @@
-const { get } = require("express/lib/response");
-const knex = require("./Knex");
+const knexFile = require("./ConnectionKnex");
+const Knex = require("knex");
+const knex = Knex(knexFile);
 
 function postImage (image) {
   return knex("Images").insert(image);

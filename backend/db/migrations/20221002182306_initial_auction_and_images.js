@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.increments("id");
     table.decimal("startingPrice");
     table.decimal("sellingPrice");
+    table.integer("sellingYear");
     table.string("currency");
     table.string("description");
     table.string("catalogueNumber");
@@ -31,6 +32,8 @@ exports.up = function(knex) {
   .createTable("Images", function (table) {
     table.increments("id");
     table.string("path");
+    table.integer("auctionId").references("id").inTable("Auctions")
+    .onDelete("CASCADE").onUpdate("CASCADE");
   });
 };
 

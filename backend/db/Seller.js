@@ -1,4 +1,6 @@
-const knex = require("./Knex");
+const knexFile = require("./ConnectionKnex");
+const Knex = require("knex");
+const knex = Knex(knexFile);
 
 function createSeller(seller){
   return knex("Sellers").insert(seller);

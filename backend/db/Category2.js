@@ -1,4 +1,6 @@
-const knex = require("./Knex");
+const knexFile = require("./ConnectionKnex");
+const Knex = require("knex");
+const knex = Knex(knexFile);
 
 function createCategory2(category2) {
   return knex("Category2").insert(category2);
