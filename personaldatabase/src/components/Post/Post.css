@@ -322,7 +322,12 @@ Select, TextArea, Input{
 }
 
 input[id="thumbnailInput"]{
-  display: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color:aquamarine;
+  z-index: 1;
+  opacity: 0;
 }
 
 .addImagesButton {
