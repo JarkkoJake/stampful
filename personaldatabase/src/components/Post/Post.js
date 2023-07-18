@@ -98,26 +98,31 @@ const Post = () => {
   // Images -------------------
 
   const [thumbnailUpdate, setThumbnailUpdate] = useState(null);
-  const [otherImages, setOtherImages] = useState([]);
 
+  // add images
   const addImage = (e) => {
+    // loop through all images, thumbnail updated everytime, so last one will be the thumbnail state
     for (let index = 0; index < e.target.files.length; index++) {
       const element = e.target.files[index];
       imageData.append("thumbnail", element);
       setThumbnailUpdate(element);
+
+      // TODO: check if this does anything
       setImageData(imageData);
     }
   };
   
+  // update DOM when images are changed
   useLayoutEffect(() => {
     const imageDataObject = imageData.getAll("thumbnail");
     const imageArray = Object.keys(imageData.getAll("thumbnail"));
     if (imageData.getAll("thumbnail") && imageArray.length > 0) {
+      // clear the thumbnail height if there are other images to be shown under it
       if (imageArray.length > 1) document.getElementById("thumbnail").style = "";
       document.getElementById("thumbnail").src = URL.createObjectURL(imageDataObject[0]);
     
-
       if (imageArray.length > 1) {
+        // create and add html for other images
         document.getElementById("additionalImages").innerHTML = null;
         for (let index = 1; index < imageArray.length; index++) {
           let image = document.createElement("img");
@@ -127,6 +132,7 @@ const Post = () => {
           document.getElementById("additionalImages").appendChild(image);
         }}
     } else {
+      // if no images are given, keep the original height of the logo
       document.getElementById("thumbnail").style = "height: 43vh";
     }
   
