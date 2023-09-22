@@ -231,6 +231,7 @@ img {
   height: calc(40% - 10px);
   overflow-x: auto;
   overflow-y: hidden;
+  z-index: 100;
   justify-content: flex-start;
   flex-wrap: nowrap;
   display: flex;

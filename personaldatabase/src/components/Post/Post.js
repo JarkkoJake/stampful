@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { RouteContext } from "../../Contexts/RouterContext";
 import { PostContext } from "../../Contexts/PostContext";
 import { constants } from "../../Constants";
-import { Row, Col, Select, Input } from "antd";
+import { Row, Col, Input } from "antd";
 import axios from "axios";
 import { ArrowLeftOutlined, SaveOutlined, PlusCircleFilled } from "@ant-design/icons";
 import logo from "../../public/images/StampLogo.png";
@@ -68,7 +68,8 @@ const Post = () => {
 
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    setPostContent({}); // TODO : Preserve some details.
     setImageData(new FormData());
     document.getElementById("thumbnail").src = logo;
     document.getElementById("thumbnail").style = "height: 43vh";
@@ -83,10 +84,6 @@ const Post = () => {
       .then((res) => {
         setSellerList(res.data);
       });
-  },[]);
-
-  useEffect(() => { // TODO : Preserve some details.
-    setPostContent({});
   },[]);
 
   const saveAuctionButton = () => {
