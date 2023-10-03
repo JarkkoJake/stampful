@@ -91,49 +91,24 @@ const Post = () => {
     setRoute("Browse");
   };
 
-
-  // Images -------------------
-
-  const [thumbnailUpdate, setThumbnailUpdate] = useState(null);
+  const [thumbnail, setThumbail] = React.useState(null);
+  const [additionalImages, setAdditionalImages] = React.useState([]);
+  const thumbnailSet = React.useRef(false);
 
   // add images
-  const addImage = (e) => {
-    // loop through all images, thumbnail updated everytime, so last one will be the thumbnail state
+  const addImages = (e) => {
+    /* Set first image as thumbnail if not set already, append rest of the images into additional images */
     for (let index = 0; index < e.target.files.length; index++) {
-      const element = e.target.files[index];
-      imageData.append("thumbnail", element);
-      setThumbnailUpdate(element);
-
-      // TODO: check if this does anything
-      setImageData(imageData);
+      const imageFile = e.target.files[index];
+      if (!thumbnailSet.current) {
+        /* Set thumbnail if not set yet */
+        setThumbail(imageFile);
+        thumbnailSet.current = true;
+        continue;
+      }
+      setAdditionalImages(images => [...images, imageFile]);
     }
   };
-  
-  // update DOM when images are changed
-  useLayoutEffect(() => {
-    const imageDataObject = imageData.getAll("thumbnail");
-    const imageArray = Object.keys(imageData.getAll("thumbnail"));
-    if (imageData.getAll("thumbnail") && imageArray.length > 0) {
-      // clear the thumbnail height if there are other images to be shown under it
-      if (imageArray.length > 1) document.getElementById("thumbnail").style = "";
-      document.getElementById("thumbnail").src = URL.createObjectURL(imageDataObject[0]);
-    
-      if (imageArray.length > 1) {
-        // create and add html for other images
-        document.getElementById("additionalImages").innerHTML = null;
-        for (let index = 1; index < imageArray.length; index++) {
-          let image = document.createElement("img");
-          image.src =  URL.createObjectURL(imageDataObject[index]);
-          image.className = "columnThumbnailAdditional";
-          image.id= "thumbnail" + index;
-          document.getElementById("additionalImages").appendChild(image);
-        }}
-    } else {
-      // if no images are given, keep the original height of the logo
-      document.getElementById("thumbnail").style = "height: 43vh";
-    }
-  
-  }, [thumbnailUpdate]);
 
   //----------------------------
 
@@ -208,11 +183,12 @@ const Post = () => {
               <PlusCircleFilled className="addImagesButton" /> 
               <span id="tooltiptext">Add images</span>
             </label>
-            <input type="file" id="thumbnailInput" multiple accept="image/*" onChange={addImage} />
+            <input type="file" id="thumbnailInput" multiple accept="image/*" onChange={addImages} />
             <Row className="thumbnailFirstRow"> 
-              <img id="thumbnail" className="postMainImage" src={logo} alt="Logo"></img>
+              <img id="thumbnail" className="postMainImage" src={thumbnail ? URL.createObjectURL(thumbnail) : logo} alt="Logo"/>
             </Row>
             <Row className="thumbnailSecondRow" id="additionalImages">
+              {additionalImages.map((img, ind) => <img className="columnThumbnailAdditional" key={`AdditionalImage_${ind}`} src={URL.createObjectURL(img)}/>)}
             </Row>
           </Col>
 
