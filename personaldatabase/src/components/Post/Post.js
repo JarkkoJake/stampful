@@ -189,7 +189,10 @@ const Post = () => {
             </Row>
             <Row className="thumbnailSecondRow" id="additionalImages">
               {additionalImages.map((img, ind) => <div key={ind} style={{position: "relative"}}>
-                <img className="columnThumbnailAdditional" key={`AdditionalImage_${ind}`} src={URL.createObjectURL(img)}>
+                <img onClick={() => {
+                  setAdditionalImages(images => [...images.filter(i => i != img), thumbnail]);
+                  setThumbail(img);
+                }} className="columnThumbnailAdditional" key={`AdditionalImage_${ind}`} src={URL.createObjectURL(img)}>
                 </img>
                 <button style={{position: "absolute",left: 0}} onClick={() => setAdditionalImages(images => images.filter(i => i != img))}>Remove</button>
               </div>)}
