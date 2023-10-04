@@ -87,6 +87,8 @@ const Post = () => {
   },[]);
 
   const saveAuctionButton = () => {
+    if (thumbnail) imageData.set("thumbnail", thumbnail);
+    if (additionalImages.lenght > 0) imageData.set("additionalImages", additionalImages);
     saveAuction();
     setRoute("Browse");
   };
