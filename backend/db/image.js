@@ -14,8 +14,13 @@ function getImageWithId(id) {
   return knex("Images").select("path").where({"id": id});
 }
 
+function getImagesForAuction(auctionId) {
+  return knex("Images").select("path").where({"auctionId": auctionId});
+}
+
 module.exports = {
   postImage: postImage,
   addPath: addPath,
-  getImageWithId: getImageWithId
+  getImageWithId: getImageWithId,
+  getImagesForAuction
 }
