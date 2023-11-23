@@ -86,43 +86,62 @@ const Post = () => {
       });
   },[]);
 
-  const saveAuctionButton = () => {
-    const MAX_IMAGE_SIZE = 50000;
+  // Maximum image size (bytes) before compression is used
+  const MAX_IMAGE_SIZE = 50000;
+
+  const saveAuctionButton = async () => {
+    let resized_images = 0;
     if (thumbnail) {
-      console.log(`Thumbnail uncompressed size ${thumbnail.size}`);
-      console.log(`Thumbnail name: ${thumbnail.name}`);
-      console.log(`Thumbnail type: ${thumbnail.type}`);
       if (thumbnail.size <= MAX_IMAGE_SIZE) imageData.set("thumbnail", thumbnail);
-      const thumbnailBlobURL = window.URL.createObjectURL(thumbnail);
-      const img = new Image();
-      img.src = thumbnailBlobURL;
-      img.onload = () => {
-        window.URL.revokeObjectURL(thumbnailBlobURL);
-        const newHeight = 200;
-        const newWidth = 200;
-        const canvas = document.createElement("canvas");
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
-        canvas.toBlob((blob) => {
-          blob.name = thumbnail.name;
-          const blobFile = new File([blob], thumbnail.name);
-          console.log(`Thumbnail compressed size ${blobFile.size}`);
-          console.log(`Thumbnail name: ${blobFile.name}`);
-          console.log(`Thumbnail type: ${blobFile.type}`);
-          imageData.set("thumbnail", blobFile);
-        }, "image/jpeg", 0.7);
-      };
+      else {
+        resized_images += 1;
+        compressImage(thumbnail, (compressedThumbnail) => {
+          imageData.set("thumbnail", compressedThumbnail);
+        });
+      }
     }
     additionalImages.forEach(img => {
-      imageData.append("additionalImages", img);
+      if (img.size <= MAX_IMAGE_SIZE) imageData.append("additionalImages", img);
+      else {
+        resized_images += 1;
+        compressImage(img, (compressedImage) => {
+          imageData.append("additionalImages", compressedImage);
+        });
+      }
     });
-    setTimeout(() => {
-      console.log("auction save");
-      saveAuction();
+
+    // wait a certain amount of time to guerantee all images have been handled
+    setTimeout(async () => {
+      await saveAuction();
       setRoute("Browse");
-    }, 1000);
+    }, 500 * resized_images);
+  };
+
+  /**
+   * Compress an image file from image input
+   * @param {File} image Image to be compressed
+   * @param {(File) => void} after Callback called afterwards with the compressed image
+   */
+  const compressImage = (image, after) => {
+    const imageBlobURL = window.URL.createObjectURL(image);
+    const img = new Image();
+    img.src = imageBlobURL;
+    const imageScaleRatio = Math.sqrt(MAX_IMAGE_SIZE / image.size);
+    img.onload = () => {
+      window.URL.revokeObjectURL(imageBlobURL);
+      const newW = Math.round(imageScaleRatio * img.width);
+      const newH = Math.round(imageScaleRatio * img.height);
+      const canvas = document.createElement("canvas");
+      canvas.width = newW;
+      canvas.height = newH;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, newW, newH);
+      canvas.toBlob((blob) => {
+        blob.name = image.name;
+        const blobFile = new File([blob], image.name);
+        after(blobFile);
+      }, image.type, 0.7);
+    };
   };
 
   const [thumbnail, setThumbail] = React.useState(null);
