@@ -12,7 +12,7 @@ import "./Post.css";
 const Post = () => {
 
   const { setRoute } = useContext(RouteContext);
-  const { setPostContent, setPostItem, saveAuction, imageData, setImageData} = useContext(PostContext);
+  const { postContent, setPostContent, setPostItem, saveAuction, imageData, setImageData} = useContext(PostContext);
 
   const { TextArea } = Input;
 
@@ -69,7 +69,11 @@ const Post = () => {
 
 
   useEffect(() => {
-    setPostContent({}); // TODO : Preserve some details.
+    setPostContent(content => ({
+      auctionNumber: content.auctionNumber,
+      seller: content.seller,
+      sellingYear: content.sellingYear,
+    }));
     setImageData(new FormData());
     document.getElementById("thumbnail").src = logo;
     document.getElementById("thumbnail").style = "height: 43vh";
@@ -113,7 +117,7 @@ const Post = () => {
     // wait a certain amount of time to guerantee all images have been handled
     setTimeout(async () => {
       await saveAuction();
-      setRoute("Browse");
+      setRoute("Menu");
     }, 500 * resized_images);
   };
 
@@ -200,109 +204,111 @@ const Post = () => {
           <SaveOutlined style={{fontSize: "2.3vh", paddingLeft: "6px" }}/>
         </button>
       </div>
-      <div id="postWrapper">
-        <Row justify="space-around" align="middle" className="firstRow">
-          <Col className="columnFirstRow" style={{width: "calc(33% - 5px)"}}>
-            <select name="country" id="country" className="selectBoxPost" onChange={(e) => {changeCountry(e.target.value);}}>
-              <option value="" hidden>Country</option>
-              {countryOptions}
-            </select>
-            <select disabled={category1.length === 0} name="category1" id="category1" className="selectBoxPost" onChange={(e) => {changeCategory1(e.target.value);}}>
-              <option value="" hidden>Category 1</option>
-              {category1Options}
-            </select>
-            <select disabled={category2.length === 0} name="category2" id="category2" className="selectBoxPost" onChange={(e) => {changeCategory2(e.target.value);}}>
-              <option value="" hidden>Category 2</option>
-              {category2Options}
-            </select>
-            <select disabled={category3.length === 0} name="category3" id="category3" className="selectBoxPost" onChange={(e) => {changeCategory3(e.target.value);}}>
-              <option value="" hidden>Category 3</option>
-              {category3Options}
-            </select>
+      {postContent && (
+        <div id="postWrapper">
+          <Row justify="space-around" align="middle" className="firstRow">
+            <Col className="columnFirstRow" style={{width: "calc(33% - 5px)"}}>
+              <select name="country" id="country" className="selectBoxPost" onChange={(e) => {changeCountry(e.target.value);}}>
+                <option value="" hidden>Country</option>
+                {countryOptions}
+              </select>
+              <select disabled={category1.length === 0} name="category1" id="category1" className="selectBoxPost" onChange={(e) => {changeCategory1(e.target.value);}}>
+                <option value="" hidden>Category 1</option>
+                {category1Options}
+              </select>
+              <select disabled={category2.length === 0} name="category2" id="category2" className="selectBoxPost" onChange={(e) => {changeCategory2(e.target.value);}}>
+                <option value="" hidden>Category 2</option>
+                {category2Options}
+              </select>
+              <select disabled={category3.length === 0} name="category3" id="category3" className="selectBoxPost" onChange={(e) => {changeCategory3(e.target.value);}}>
+                <option value="" hidden>Category 3</option>
+                {category3Options}
+              </select>
 
-          </Col>
-          <Col className="columnFirstRow" style={{width: "calc(66% - 5px)"}}>
-            <TextArea
-              placeholder="Description"
-              rows={2}
-              id="descriptionField"
-              onChange={(e) => setPostItem("description", e.target.value)}
-            />
-          </Col>
-        </Row>
-        <Row justify="space-around" align="middle" className="secondRow">
-          <Col className="columnThumbnail" style={{width: "calc(40% - 5px)"}}>
-            <label htmlFor="thumbnailInput" className="custom-file-upload">
-              <PlusCircleFilled className="addImagesButton" /> 
-              <span id="tooltiptext">Add images</span>
-            </label>
-            <input type="file" id="thumbnailInput" multiple accept="image/*" onChange={addImages} />
-            <Row className="thumbnailFirstRow"> 
-              <img id="thumbnail" className="postMainImage" src={thumbnail ? URL.createObjectURL(thumbnail) : logo} alt="Logo"/>
-            </Row>
-            <Row className="thumbnailSecondRow" id="additionalImages">
-              {additionalImages.map((img, ind) => <div key={ind} style={{position: "relative"}}>
-                <img onClick={() => {
-                  setAdditionalImages(images => [...images.filter(i => i != img), thumbnail]);
-                  setThumbail(img);
-                }} className="columnThumbnailAdditional" key={`AdditionalImage_${ind}`} src={URL.createObjectURL(img)}>
-                </img>
-                <button style={{position: "absolute",left: 0}} onClick={() => setAdditionalImages(images => images.filter(i => i != img))}>Remove</button>
-              </div>)}
-            </Row>
-          </Col>
+            </Col>
+            <Col className="columnFirstRow" style={{width: "calc(66% - 5px)"}}>
+              <TextArea
+                placeholder="Description"
+                rows={2}
+                id="descriptionField"
+                onChange={(e) => setPostItem("description", e.target.value)}
+              />
+            </Col>
+          </Row>
+          <Row justify="space-around" align="middle" className="secondRow">
+            <Col className="columnThumbnail" style={{width: "calc(40% - 5px)"}}>
+              <label htmlFor="thumbnailInput" className="custom-file-upload">
+                <PlusCircleFilled className="addImagesButton" /> 
+                <span id="tooltiptext">Add images</span>
+              </label>
+              <input type="file" id="thumbnailInput" multiple accept="image/*" onChange={addImages} />
+              <Row className="thumbnailFirstRow"> 
+                <img id="thumbnail" className="postMainImage" src={thumbnail ? URL.createObjectURL(thumbnail) : logo} alt="Logo"/>
+              </Row>
+              <Row className="thumbnailSecondRow" id="additionalImages">
+                {additionalImages.map((img, ind) => <div key={ind} style={{position: "relative"}}>
+                  <img onClick={() => {
+                    setAdditionalImages(images => [...images.filter(i => i != img), thumbnail]);
+                    setThumbail(img);
+                  }} className="columnThumbnailAdditional" key={`AdditionalImage_${ind}`} src={URL.createObjectURL(img)}>
+                  </img>
+                  <button style={{position: "absolute",left: 0}} onClick={() => setAdditionalImages(images => images.filter(i => i != img))}>Remove</button>
+                </div>)}
+              </Row>
+            </Col>
 
 
 
-          <Col className="columnInfo" style={{width: "calc(59% - 5px)"}}>
-            <Row justify="space-around" align="middle" className="stampInfoRow">
-              <Col className="stampInfoColumn" style={{width: "calc(100% - 5px)"}}>
-                <Row align="middle" className="stampInfoRowTopTop">
-                  <div className="checkboxes">
-                    <div className="checkboxWrapperPost">
-                      <label className="checkboxHeaderPost">Used</label>
-                      <input className="checkboxPost" type="checkbox" onChange={(e) => setPostItem("used", e.target.checked)}/>
+            <Col className="columnInfo" style={{width: "calc(59% - 5px)"}}>
+              <Row justify="space-around" align="middle" className="stampInfoRow">
+                <Col className="stampInfoColumn" style={{width: "calc(100% - 5px)"}}>
+                  <Row align="middle" className="stampInfoRowTopTop">
+                    <div className="checkboxes">
+                      <div className="checkboxWrapperPost">
+                        <label className="checkboxHeaderPost">Used</label>
+                        <input className="checkboxPost" type="checkbox" onChange={(e) => setPostItem("used", e.target.checked)}/>
+                      </div>
+                      <div className="checkboxWrapperPost">
+                        <label className="checkboxHeaderPost">Mint</label>
+                        <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("mint", e.target.checked)}/>
+                      </div>
+                      <div className="checkboxWrapperPost">
+                        <label className="checkboxHeaderPost">Postal</label>
+                        <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("postalItem", e.target.checked)}/>
+                      </div>
+                      <div className="checkboxWrapperPost">
+                        <label className="checkboxHeaderPost">Cert.</label>
+                        <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("certificate", e.target.checked)}/>
+                      </div>
                     </div>
-                    <div className="checkboxWrapperPost">
-                      <label className="checkboxHeaderPost">Mint</label>
-                      <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("mint", e.target.checked)}/>
-                    </div>
-                    <div className="checkboxWrapperPost">
-                      <label className="checkboxHeaderPost">Postal</label>
-                      <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("postalItem", e.target.checked)}/>
-                    </div>
-                    <div className="checkboxWrapperPost">
-                      <label className="checkboxHeaderPost">Cert.</label>
-                      <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("certificate", e.target.checked)}/>
-                    </div>
-                  </div>
-                </Row>
-                <Row className="stampInfoRowTopBottom">
-                  <input className="infoInput" placeholder={"Catalog number"} onChange={(e) => setPostItem("catalogueNumber", e.target.value)}/>
-                  <input className="infoInput" placeholder={"Starting price"} onChange={(e) => setPostItem("startingPrice", e.target.value)}/>
-                  <input className="infoInput" placeholder={"Selling price"} onChange={(e) => setPostItem("sellingPrice", e.target.value)}/>
-                  <input className="infoInputCurrency" readOnly value={"€"}/>
-                </Row>
-              </Col>
-            </Row>
-            <Row justify="space-around" align="middle" className="stampSellerRow">
-              <Col className="stampSellerColumn" style={{width: "calc(100% - 5px)"}}>
-                <Row justify="space-around" align="middle" className="stampInfoRowBottom">
-                  <input className="infoInputBottom" placeholder={"Selling year"} onChange={(e) => setPostItem("sellingYear", e.target.value)}/>
-                  <input className="infoInputBottom" placeholder={"Auction number"} onChange={(e) => setPostItem("auctionNumber", e.target.value)}/>
-                </Row>
-                <Row justify="space-around" align="middle" className="stampInfoRowBottom">
-                  <select disabled={sellerList.length === 0} name="seller" id="seller" className="infoInputBottom" onChange={(e) => setPostItem("seller", e.target.value)}>
-                    <option value="" hidden>Seller</option>
-                    {sellerOptions}
-                  </select>
-                  <input className="infoInputBottom" placeholder={"Lot number"} onChange={(e) => setPostItem("lotNumber", e.target.value)}/>
-                </Row>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </div>
+                  </Row>
+                  <Row className="stampInfoRowTopBottom">
+                    <input className="infoInput" placeholder={"Catalog number"} onChange={(e) => setPostItem("catalogueNumber", e.target.value)}/>
+                    <input className="infoInput" placeholder={"Starting price"} onChange={(e) => setPostItem("startingPrice", e.target.value)}/>
+                    <input className="infoInput" placeholder={"Selling price"} onChange={(e) => setPostItem("sellingPrice", e.target.value)}/>
+                    <input className="infoInputCurrency" readOnly value={"€"}/>
+                  </Row>
+                </Col>
+              </Row>
+              <Row justify="space-around" align="middle" className="stampSellerRow">
+                <Col className="stampSellerColumn" style={{width: "calc(100% - 5px)"}}>
+                  <Row justify="space-around" align="middle" className="stampInfoRowBottom">
+                    <input className="infoInputBottom" defaultValue={postContent.sellingYear} placeholder={"Selling year"} onChange={(e) => setPostItem("sellingYear", e.target.value)}/>
+                    <input className="infoInputBottom" defaultValue={postContent.auctionNumber} placeholder={"Auction number"} onChange={(e) => setPostItem("auctionNumber", e.target.value)}/>
+                  </Row>
+                  <Row justify="space-around" align="middle" className="stampInfoRowBottom">
+                    <select name="seller" id="seller" className="infoInputBottom" onChange={(e) => setPostItem("seller", e.target.value)}>
+                      <option value="" hidden>{sellerList.find(s => s.id == postContent.seller)?.name  || "Seller"}</option>
+                      {sellerOptions}
+                    </select>
+                    <input className="infoInputBottom" placeholder={"Lot number"} onChange={(e) => setPostItem("lotNumber", e.target.value)}/>
+                  </Row>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
+      )}
     </div>
   );
 };
