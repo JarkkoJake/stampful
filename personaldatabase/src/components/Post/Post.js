@@ -23,6 +23,16 @@ const Post = () => {
   const [category2, setCategory2] = useState([]);
   const [category3, setCategory3] = useState([]);
 
+  const [description, setDescription] = useState(null);
+  const [mint, setMint] = useState(false);
+  const [used, setUsed] = useState(false);
+  const [postalItem, setPostalItem] = useState(false);
+  const [certificate, setCertificate] = useState(false);
+  const [lotNumber, setLotNumber] = useState(null);
+  const [catalogueNumber, setCatalogueNumber] = useState(null);
+  const [startingPrice, setStartingPrice] = useState(null);
+  const [sellingPrice, setSellingPrice] = useState(null);
+
   const changeCountry = (element)=> {
     setPostItem("country", element);
     setPostItem("category1", null);
@@ -117,7 +127,7 @@ const Post = () => {
     // wait a certain amount of time to guerantee all images have been handled
     setTimeout(async () => {
       await saveAuction();
-      setRoute("Menu");
+      resetForm();
     }, 500 * resized_images);
   };
 
@@ -189,6 +199,43 @@ const Post = () => {
     <option key={seller.id} value={seller.id}>{seller.name}</option>
   );
 
+  /**
+   * Reset the form manually after posting. Keep some details of post content
+   */
+  const resetForm = () => {
+    setPostContent(c => ({
+      auctionNumber: c.auctionNumber,
+      sellingYear: c.sellingYear,
+      seller: c.seller,
+    }));
+
+    // dropdown reset countries to empty and back to reset the select component back to default
+    const countriesCopy = [...countryOptionsArray];
+    setCountryOptionsArray([]);
+    setTimeout(() => setCountryOptionsArray(countriesCopy), 100);
+    setCategory1([]);
+    setCategory2([]);
+    setCategory3([]);
+
+    // text and number inputs
+    setDescription(null);
+    setLotNumber("");
+    setCatalogueNumber("");
+    setSellingPrice("");
+    setStartingPrice("");
+    
+    // booleans
+    setMint(false);
+    setUsed(false);
+    setCertificate(false);
+    setPostalItem(false);
+
+    // images
+    setThumbail(null);
+    setAdditionalImages([]);
+    setImageData(new FormData());
+  };
+
   return (
     <div>
       <div id="PostHeader">
@@ -231,7 +278,11 @@ const Post = () => {
                 placeholder="Description"
                 rows={2}
                 id="descriptionField"
-                onChange={(e) => setPostItem("description", e.target.value)}
+                value={description}
+                onChange={(e) => {
+                  setPostItem("description", e.target.value);
+                  setDescription(e.target.value);
+                }}
               />
             </Col>
           </Row>
@@ -266,26 +317,47 @@ const Post = () => {
                     <div className="checkboxes">
                       <div className="checkboxWrapperPost">
                         <label className="checkboxHeaderPost">Used</label>
-                        <input className="checkboxPost" type="checkbox" onChange={(e) => setPostItem("used", e.target.checked)}/>
+                        <input checked={used} className="checkboxPost" type="checkbox" onChange={(e) => {
+                          setPostItem("used", e.target.checked);
+                          setUsed(e.target.checked);
+                        }}/>
                       </div>
                       <div className="checkboxWrapperPost">
                         <label className="checkboxHeaderPost">Mint</label>
-                        <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("mint", e.target.checked)}/>
+                        <input checked={mint} className="checkboxPost" type="checkbox" onChange={(e) => {
+                          setPostItem("mint", e.target.checked);
+                          setMint(e.target.checked);
+                        }}/>
                       </div>
                       <div className="checkboxWrapperPost">
                         <label className="checkboxHeaderPost">Postal</label>
-                        <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("postalItem", e.target.checked)}/>
+                        <input checked={postalItem} className="checkboxPost" type="checkbox" onChange={(e) => {
+                          setPostItem("postalItem", e.target.checked);
+                          setPostalItem(e.target.checked);
+                        }}/>
                       </div>
                       <div className="checkboxWrapperPost">
                         <label className="checkboxHeaderPost">Cert.</label>
-                        <input className="checkboxPost" type="checkbox"  onChange={(e) => setPostItem("certificate", e.target.checked)}/>
+                        <input checked={certificate} className="checkboxPost" type="checkbox" onChange={(e) => {
+                          setPostItem("certificate", e.target.checked);
+                          setCertificate(e.target.checked);
+                        }}/>
                       </div>
                     </div>
                   </Row>
                   <Row className="stampInfoRowTopBottom">
-                    <input className="infoInput" placeholder={"Catalog number"} onChange={(e) => setPostItem("catalogueNumber", e.target.value)}/>
-                    <input className="infoInput" placeholder={"Starting price"} onChange={(e) => setPostItem("startingPrice", e.target.value)}/>
-                    <input className="infoInput" placeholder={"Selling price"} onChange={(e) => setPostItem("sellingPrice", e.target.value)}/>
+                    <input value={catalogueNumber} className="infoInput" placeholder={"Catalog number"} onChange={(e) => {
+                      setPostItem("catalogueNumber", e.target.value);
+                      setCatalogueNumber(e.target.value);  
+                    }}/>
+                    <input value={startingPrice} className="infoInput" placeholder={"Starting price"} onChange={(e) => {
+                      setPostItem("startingPrice", e.target.value);
+                      setStartingPrice(e.target.value);
+                    }}/>
+                    <input value={sellingPrice} className="infoInput" placeholder={"Selling price"} onChange={(e) => {
+                      setPostItem("sellingPrice", e.target.value);
+                      setSellingPrice(e.target.value);
+                    }}/>
                     <input className="infoInputCurrency" readOnly value={"€"}/>
                   </Row>
                 </Col>
@@ -301,7 +373,10 @@ const Post = () => {
                       <option value="" hidden>{sellerList.find(s => s.id == postContent.seller)?.name  || "Seller"}</option>
                       {sellerOptions}
                     </select>
-                    <input className="infoInputBottom" placeholder={"Lot number"} onChange={(e) => setPostItem("lotNumber", e.target.value)}/>
+                    <input value={lotNumber} className="infoInputBottom" placeholder={"Lot number"} onChange={(e) => {
+                      setPostItem("lotNumber", e.target.value);
+                      setLotNumber(e.target.value);
+                    }}/>
                   </Row>
                 </Col>
               </Row>
