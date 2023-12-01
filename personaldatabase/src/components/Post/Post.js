@@ -240,6 +240,31 @@ const Post = () => {
 
   return (
     <div>
+      <div className="popupBackground" style={{
+        display: postDropdownItemMenu == "" ? "none" : "flex",
+      }}>
+        <div style={{
+          padding: 15,
+          borderRadius: 15,
+          backgroundColor: "var(--mainclr1)",
+        }}>
+          <div style={{width: "100%", marginBottom: 15}}>
+            <button id="closePopup" onClick={() => setPostDropdownItemMenu("")}>
+              <ArrowLeftOutlined style={{fontSize: "2.3vh", paddingRight: 6}}/>
+              Back
+            </button>
+            <button id="saveDropdownItem" style={{float: "right"}} onClick={() => {
+              setPostDropdownItemMenu("");
+              console.log("save");
+            }}>
+              Save
+              <SaveOutlined style={{fontSize: "2.3vh", paddingLeft: 6}}/>
+            </button>
+          </div>
+          <input className="infoInput" placeholder="TEST" style={{width: 400}}/>
+        </div>
+
+      </div>
       <div id="PostHeader">
         <button id="back" onClick={() => setRoute("Menu")} style={{float: "left"}}>
           <ArrowLeftOutlined style={{fontSize: "2.3vh", paddingRight: "6px" }}/>
