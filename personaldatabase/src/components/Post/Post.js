@@ -274,27 +274,43 @@ const Post = () => {
             </button>
             <button id="saveDropdownItem" style={{float: "right"}} onClick={() => {
               if (postDropdownItemMenu == "SELLER" || postDropdownItemMenu == "COUNTRY") {
-                axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {name: newDropdownItem});
+                const type = postDropdownItemMenu;
+                axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`,
+                  {name: newDropdownItem}).then(r => {
+                  if (!r.data) return;
+                  if (r.data.id) {
+                    if (type == "SELLER") setSellerList(list => [...list, r.data]);
+                    if (type == "COUNTRY") setCountryOptionsArray(list => [...list, r.data]);
+                  }
+                });
               }
               if (postDropdownItemMenu == "CATEGORY_1") {
                 axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {
                   country: postContent.country,
                   category1: newDropdownItem,
+                }).then(r => {
+                  if (!r.data) return;
+                  if (r.data.id) setCategory1(list => [...list, r.data]);
                 });
               }
               if (postDropdownItemMenu == "CATEGORY_2") {
                 axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {
                   category1: postContent.category1,
                   category2: newDropdownItem,
+                }).then(r => {
+                  if (!r.data) return;
+                  if (r.data.id) setCategory2(list => [...list, r.data]);
                 });
               }
               if (postDropdownItemMenu == "CATEGORY_3") {
                 axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {
                   category2: postContent.category2,
                   category3: newDropdownItem,
+                }).then(r => {
+                  if (!r.data) return;
+                  if (r.data.id) setCategory3(list => [...list, r.data]);
                 });
               }
-              
               setPostDropdownItemMenu("");
               setNewDropdownItem("");
             }}>
@@ -302,7 +318,7 @@ const Post = () => {
               <SaveOutlined style={{fontSize: "2.3vh", paddingLeft: 6}}/>
             </button>
           </div>
-          <input className="infoInput" placeholder="TEST" style={{width: 400}} onChange={e => setNewDropdownItem(e.target.value)}/>
+          <input value={newDropdownItem} className="infoInput" placeholder="TEST" style={{width: 400}} onChange={e => setNewDropdownItem(e.target.value)}/>
         </div>
 
       </div>
@@ -335,7 +351,7 @@ const Post = () => {
                 {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New country</option>}
               </select>
             
-              <select disabled={category1.length === 0} name="category1" id="category1" className="selectBoxPost" onChange={(e) => {
+              <select disabled={!postContent.country} name="category1" id="category1" className="selectBoxPost" onChange={(e) => {
                 if (e.target.value == "NEW_ITEM_POST") {
                   setPostDropdownItemMenu("CATEGORY_1");
                 } else {
@@ -347,7 +363,7 @@ const Post = () => {
                 {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New category</option>}
               </select>
 
-              <select disabled={category2.length === 0} name="category2" id="category2" className="selectBoxPost" onChange={(e) => {
+              <select disabled={!postContent.category1} name="category2" id="category2" className="selectBoxPost" onChange={(e) => {
                 if (e.target.value == "NEW_ITEM_POST") {
                   setPostDropdownItemMenu("CATEGORY_2");
                 } else {
@@ -359,7 +375,7 @@ const Post = () => {
                 {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New category</option>}
               </select>
 
-              <select disabled={category3.length === 0} name="category3" id="category3" className="selectBoxPost" onChange={(e) => {
+              <select disabled={!postContent.category2} name="category3" id="category3" className="selectBoxPost" onChange={(e) => {
                 if (e.target.value == "NEW_ITEM_POST") {
                   setPostDropdownItemMenu("CATEGORY_3");
                 } else {
