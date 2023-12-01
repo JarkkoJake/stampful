@@ -33,7 +33,26 @@ const Post = () => {
   const [startingPrice, setStartingPrice] = useState(null);
   const [sellingPrice, setSellingPrice] = useState(null);
 
+  const [newDropdownItem, setNewDropdownItem] = useState("");
   const [postDropdownItemMenu, setPostDropdownItemMenu] = useState("");
+  const dropdownItemMetaData = {
+    "SELLER": {
+      endpoint: "seller",
+    },
+    "COUNTRY": {
+      endpoint: "country",
+    },
+    "CATEGORY_1": {
+      endpoint: "category1",
+    },
+    "CATEGORY_2": {
+      endpoint: "category2",
+    },
+    "CATEGORY_3": {
+      endpoint: "category3",
+    },
+    
+  };
 
   const changeCountry = (element)=> {
     setPostItem("country", element);
@@ -254,14 +273,36 @@ const Post = () => {
               Back
             </button>
             <button id="saveDropdownItem" style={{float: "right"}} onClick={() => {
+              if (postDropdownItemMenu == "SELLER" || postDropdownItemMenu == "COUNTRY") {
+                axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {name: newDropdownItem});
+              }
+              if (postDropdownItemMenu == "CATEGORY_1") {
+                axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {
+                  country: postContent.country,
+                  category1: newDropdownItem,
+                });
+              }
+              if (postDropdownItemMenu == "CATEGORY_2") {
+                axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {
+                  category1: postContent.category1,
+                  category2: newDropdownItem,
+                });
+              }
+              if (postDropdownItemMenu == "CATEGORY_3") {
+                axios.post(`${constants.URL}/dropdown/${dropdownItemMetaData[postDropdownItemMenu].endpoint}`, {
+                  category2: postContent.category2,
+                  category3: newDropdownItem,
+                });
+              }
+              
               setPostDropdownItemMenu("");
-              console.log("save");
+              setNewDropdownItem("");
             }}>
               Save
               <SaveOutlined style={{fontSize: "2.3vh", paddingLeft: 6}}/>
             </button>
           </div>
-          <input className="infoInput" placeholder="TEST" style={{width: 400}}/>
+          <input className="infoInput" placeholder="TEST" style={{width: 400}} onChange={e => setNewDropdownItem(e.target.value)}/>
         </div>
 
       </div>
