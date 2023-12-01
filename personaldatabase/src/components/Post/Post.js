@@ -33,6 +33,8 @@ const Post = () => {
   const [startingPrice, setStartingPrice] = useState(null);
   const [sellingPrice, setSellingPrice] = useState(null);
 
+  const [postDropdownItemMenu, setPostDropdownItemMenu] = useState("");
+
   const changeCountry = (element)=> {
     setPostItem("country", element);
     setPostItem("category1", null);
@@ -255,21 +257,52 @@ const Post = () => {
         <div id="postWrapper">
           <Row justify="space-around" align="middle" className="firstRow">
             <Col className="columnFirstRow" style={{width: "calc(33% - 5px)"}}>
-              <select name="country" id="country" className="selectBoxPost" onChange={(e) => {changeCountry(e.target.value);}}>
+              <select name="country" id="country" className="selectBoxPost" onChange={(e) => {
+                if (e.target.value == "NEW_ITEM_POST") {
+                  setPostDropdownItemMenu("COUNTRY");
+                } else {
+                  changeCountry(e.target.value);
+                }
+              }}>
                 <option value="" hidden>Country</option>
                 {countryOptions}
+                {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New country</option>}
               </select>
-              <select disabled={category1.length === 0} name="category1" id="category1" className="selectBoxPost" onChange={(e) => {changeCategory1(e.target.value);}}>
+            
+              <select disabled={category1.length === 0} name="category1" id="category1" className="selectBoxPost" onChange={(e) => {
+                if (e.target.value == "NEW_ITEM_POST") {
+                  setPostDropdownItemMenu("CATEGORY_1");
+                } else {
+                  changeCategory1(e.target.value);
+                }
+              }}>
                 <option value="" hidden>Category 1</option>
                 {category1Options}
+                {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New category</option>}
               </select>
-              <select disabled={category2.length === 0} name="category2" id="category2" className="selectBoxPost" onChange={(e) => {changeCategory2(e.target.value);}}>
+
+              <select disabled={category2.length === 0} name="category2" id="category2" className="selectBoxPost" onChange={(e) => {
+                if (e.target.value == "NEW_ITEM_POST") {
+                  setPostDropdownItemMenu("CATEGORY_2");
+                } else {
+                  changeCategory2(e.target.value);
+                }
+              }}>
                 <option value="" hidden>Category 2</option>
                 {category2Options}
+                {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New category</option>}
               </select>
-              <select disabled={category3.length === 0} name="category3" id="category3" className="selectBoxPost" onChange={(e) => {changeCategory3(e.target.value);}}>
+
+              <select disabled={category3.length === 0} name="category3" id="category3" className="selectBoxPost" onChange={(e) => {
+                if (e.target.value == "NEW_ITEM_POST") {
+                  setPostDropdownItemMenu("CATEGORY_3");
+                } else {
+                  changeCategory3(e.target.value);
+                }
+              }}>
                 <option value="" hidden>Category 3</option>
                 {category3Options}
+                {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New category</option>}
               </select>
 
             </Col>
@@ -369,9 +402,16 @@ const Post = () => {
                     <input className="infoInputBottom" defaultValue={postContent.auctionNumber} placeholder={"Auction number"} onChange={(e) => setPostItem("auctionNumber", e.target.value)}/>
                   </Row>
                   <Row justify="space-around" align="middle" className="stampInfoRowBottom">
-                    <select name="seller" id="seller" className="infoInputBottom" onChange={(e) => setPostItem("seller", e.target.value)}>
+                    <select name="seller" id="seller" className="infoInputBottom" onChange={(e) => {
+                      if (e.target.value == "NEW_ITEM_POST") {
+                        setPostDropdownItemMenu("SELLER");
+                      } else {
+                        setPostItem("seller", e.target.value);
+                      }
+                    }}>
                       <option value="" hidden>{sellerList.find(s => s.id == postContent.seller)?.name  || "Seller"}</option>
                       {sellerOptions}
+                      {postDropdownItemMenu == "" && <option value="NEW_ITEM_POST">+ New seller</option>}
                     </select>
                     <input value={lotNumber} className="infoInputBottom" placeholder={"Lot number"} onChange={(e) => {
                       setPostItem("lotNumber", e.target.value);
