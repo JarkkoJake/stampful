@@ -5,6 +5,8 @@ export const BrowseContext = createContext();
 
 export const BrowseProvider = ({ children }) => {
 
+  const [singleAuction, setSingleAuction] = React.useState({});
+
   const defaultRequestObj = {listType: "listbrowse", page: 1};
 
   let [requestObject, setRequestObject] = useState(defaultRequestObj);
@@ -42,6 +44,8 @@ export const BrowseProvider = ({ children }) => {
         defaultRequestObj,
         filterObject,
         setFilterObject,
+        singleAuction,
+        setSingleAuction,
       }}
     >
       {children}

@@ -20,7 +20,7 @@ import "./Browse.css";
 
 const Browse = () => {
   const { setRoute } = useContext(RouteContext);
-  const { constructUrl, requestObject } = useContext(BrowseContext);
+  const { constructUrl, requestObject, setSingleAuction } = useContext(BrowseContext);
   const [auctionItemsList, setAuctionItemsList] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pageNumber = useRef(1);
@@ -85,7 +85,10 @@ const Browse = () => {
 
   const auctionItems = auctionItemsList.map((auction) => {
     return (
-      <Row className="auctionItem" key={auction.id}>
+      <Row className="auctionItem" key={auction.id} onClick={() => {
+        setSingleAuction(auction);
+        setRoute("SingleView");
+      }}>
         <Col className="image">
           <img className="auctionImage" src={auction.thumbnail ? constants.URL + "/" + auction.thumbnail.path : logo} alt="Logo"></img>
         </Col>

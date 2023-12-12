@@ -3,6 +3,7 @@ import Index from "../Components/Login/Index";
 import Menu from "../Components/Menu/Menu";
 import Post from "../Components/Post/Post";
 import Browse from "../Components/Browse/Browse";
+import { SingleView } from "../Components/SingleView/SingleView";
 
 export const RouteContext = createContext();
 
@@ -19,6 +20,8 @@ export const RouteProvider = ({ children }) => {
       return <Menu />;
     case "Browse":
       return <Browse />;
+    case "SingleView":
+      return <SingleView/>;
     default:
       return <Index />;
     }
