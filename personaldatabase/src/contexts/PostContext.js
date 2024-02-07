@@ -25,10 +25,12 @@ export const PostProvider = ({ children }) => {
   };
 
   const saveImages = (auctionId) => {
-    axios
-      .post(`${constants.URL}/image/${auctionId}`, imageData)
-      .then((res) => {
-      });
+    if (imageData.get("thumbnail")) {
+      axios
+        .post(`${constants.URL}/image/${auctionId}`, imageData)
+        .then((res) => {
+        });
+    }
   };
 
   return (

@@ -15,7 +15,8 @@ exports.postImage = async (req, res) => {
     if (!auctionId) res.status(400).send("No auction id was provided");
     const thumbnail = req.files["thumbnail"];
     if (thumbnail) await setThumbnail(thumbnail, auctionId);
-    const additionalImages = req.files["additionalImages"];
+    let additionalImages = req.files["additionalImages"];
+    if (!additionalImages.forEach) additionalImages = [additionalImages];
     if (additionalImages) await saveAdditionalImages(additionalImages, auctionId);
   } catch (e) {
     console.log(e)
