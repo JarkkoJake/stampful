@@ -17,6 +17,13 @@ function getCategory1(countryid) {
   }).where("country", countryid);
 }
 
+function getCategory1WithId(id) {
+  return knex("Category1").select({
+    id: "id",
+    category1: "category1"
+  }).where("id", id);
+};
+
 // used to check if a specific id exists while validating for new auctions
 function getCount(id) {
   return knex("Category1").count().where({"id": id});
@@ -26,5 +33,6 @@ module.exports = {
   createCategory1,
   getCategory1,
   getCount,
-  editCategory1
+  editCategory1,
+  getCategory1WithId
 };

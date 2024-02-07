@@ -73,9 +73,9 @@ exports.browseListView = async (req, res) => {
     results[i].seller = (await sellerDb.getSeller(results[i].seller))[0] || null;
     results[i].thumbnail = (await imageDb.getImageWithId(results[i].thumbnail))[0] || null;
     results[i].country = (await countryDb.getCountry(results[i].country))[0] || null;
-    results[i].category1 = (await category1Db.getCategory1(results[i].category1))[0] || null;
-    results[i].category2 = (await category2Db.getCategory2(results[i].category2))[0] || null;
-    results[i].category3 = (await category3Db.getCategory3(results[i].category3))[0] || null;
+    results[i].category1 = (await category1Db.getCategory1WithId(results[i].category1))[0] || null;
+    results[i].category2 = (await category2Db.getCategory2WithId(results[i].category2))[0] || null;
+    results[i].category3 = (await category3Db.getCategory3WithId(results[i].category3))[0] || null;
     let additionalImages = (await imageDb.getImagesForAuction(results[i].id));
     if (additionalImages?.length) {
       results[i].additionalImages = additionalImages.filter(iPath => iPath != results[i].thumbnail);
