@@ -1,4 +1,5 @@
-//const { request } = require('http');
+const TokenCheck = require("./middleware/tokenCheck");
+require("dotenv").config();
 
 const express = require('express'), app = express(), port = 5000,
     auctionRouter = require('./routes/auctionRoutes'),
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-app.use('/auctions', auctionRouter.router);
+app.use('/auctions', TokenCheck, auctionRouter.router);
 app.use('/dropdown', dropdownRouter.router);
 app.use("/login", loginRouter.Router);
 app.use("/image", imageRouter.router);

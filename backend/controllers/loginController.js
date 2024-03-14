@@ -1,20 +1,14 @@
-// all code here is for test logins only!
-
-const testusers = [{username: "John", password: "Doe"},
-{username: "Pekka", password: "Lehtola"},
-{username: "Steve", password: "Hommy"},
-{username: "Jarkko", password: "Heinonen"},
-{username: ".", password: "."}];
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 exports.login = (req, res) => {
-    const username = req.query.username;
-    const password = req.query.password;
-    let validation = false;
-    testusers.forEach(user => {
-        if (user.username == username && user.password == password) {
-            validation = true;
+    const password = req.body.password;
+    bcrypt.compare(password, process.env.PASSWORD).then((success) => {
+        if (!success) {
+            res.status(401).send("Authentication failed");
             return;
         }
+        const token = jwt.sign({}, process.env.JWT, {expiresIn: "5 days"});
+        res.send({accessToken: token});
     });
-    res.send({validation: validation});
 };
