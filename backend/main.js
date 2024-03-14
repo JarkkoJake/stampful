@@ -22,9 +22,9 @@ app.use(express.static("public"));
 
 
 app.use('/auctions', TokenCheck, auctionRouter.router);
-app.use('/dropdown', dropdownRouter.router);
+app.use('/dropdown', TokenCheck, dropdownRouter.router);
 app.use("/login", loginRouter.Router);
-app.use("/image", imageRouter.router);
+app.use("/image", TokenCheck, imageRouter.router);
 
 app.listen(port, () => {
     console.log('Server running on port ' + port);
