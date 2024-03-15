@@ -9,33 +9,32 @@ import axios from "axios";
 
 
 const Index = ({ title }) => {
-  const { password, username, setUsername, setPassword} = useContext(LoginContext);
+  const { password, setPassword, setToken} = useContext(LoginContext);
   const { setRoute } = useContext(RouteContext);
 
-  const loginCall = (user, pass) => { 
+  const loginCall = (pass) => { 
     axios
-      .get(`${constants.URL}/login`,
+      .post(`${constants.URL}/login`,
         {
-          params: {
-            username: user,
-            password: pass
-          }
+          password: pass
         })
       .then((res) => {
-        if (res.data.validation) {setRoute("Menu");
+        if (res.data.accessToken) {
+          setRoute("Menu");
+          setToken(res.data.accessToken);
         } else {
-          alert("Username or Password incorrect");
+          alert("Password incorrect");
           setPassword("");
-          setUsername("");
-          return null;
         }
+      }).catch(() => {
+        alert("Password incorrect");
       });
   };
 
   const submit = (err) => {
     if (err) console.error(err);
     else {
-      loginCall(username, password);
+      loginCall(password);
     }
   };
 
@@ -44,13 +43,8 @@ const Index = ({ title }) => {
       <h1 id="title">{title}</h1>
 
       <Input
-        id="username"
-        placeholder={"Username..."}
-        value={username}
-        onChange={(value) => setUsername(value.target.value)}
-      />
-      <Input
         id="password"
+        type="password"
         placeholder={"Password..."}
         value={password}
         onChange={(value) => setPassword(value.target.value)}

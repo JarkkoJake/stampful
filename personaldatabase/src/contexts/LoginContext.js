@@ -1,19 +1,24 @@
+import axios from "axios";
 import React, { createContext, useState } from "react";
-import { constants } from "../Constants.js";
 
 export const LoginContext = createContext();
 
 export const LoginProvider = ({ children }) => {
-  const [username, setUsername] = useState("");
+
   const [password, setPassword] = useState("");
+  const [token, setToken] = useState(null);
+
+  React.useEffect(() => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }, [token]);
 
   return (
     <LoginContext.Provider
       value={{
-        username,
-        setUsername,
         password,
         setPassword,
+        token,
+        setToken,
       }}
     >
       {children}
