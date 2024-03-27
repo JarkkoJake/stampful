@@ -2,10 +2,6 @@ const imageDb = require("../db/image");
 const auctionDb = require("../db/Auction");
 const {join} = require("path");
 
-exports.getImageWithId = async (req, res) => {
-  console.log(req.params.id);
-};
-
 exports.postImage = async (req, res) => {
   /** Post images to an auction, requires auctionId, saves thumbnail, and additionalImages, save
    * the files to images folder and references to sqlite.
@@ -16,6 +12,7 @@ exports.postImage = async (req, res) => {
     const thumbnail = req.files["thumbnail"];
     if (thumbnail) await setThumbnail(thumbnail, auctionId);
     let additionalImages = req.files["additionalImages"];
+    if (!additionalImages) return;
     if (!additionalImages.forEach) additionalImages = [additionalImages];
     if (additionalImages) await saveAdditionalImages(additionalImages, auctionId);
   } catch (e) {
